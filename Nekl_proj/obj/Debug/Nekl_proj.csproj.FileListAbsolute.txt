@@ -1,0 +1,10 @@
+E:\My\Mexmat\Nekl_proj\Nekl_proj\bin\Debug\Nekl_proj.exe.config
+E:\My\Mexmat\Nekl_proj\Nekl_proj\bin\Debug\Nekl_proj.exe
+E:\My\Mexmat\Nekl_proj\Nekl_proj\bin\Debug\Nekl_proj.pdb
+E:\My\Mexmat\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.csprojAssemblyReference.cache
+E:\My\Mexmat\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.Properties.Resources.resources
+E:\My\Mexmat\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.csproj.GenerateResource.cache
+E:\My\Mexmat\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.csproj.CoreCompileInputs.cache
+E:\My\Mexmat\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.exe
+E:\My\Mexmat\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.pdb
+E:\My\Mexmat\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.Form1.resources
