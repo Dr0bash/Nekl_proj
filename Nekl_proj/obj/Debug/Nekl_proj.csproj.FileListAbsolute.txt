@@ -8,3 +8,13 @@ E:\My\Mexmat\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.csproj.CoreCompileInputs.ca
 E:\My\Mexmat\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.exe
 E:\My\Mexmat\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.pdb
 E:\My\Mexmat\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.Form1.resources
+E:\123123123\Nekl_proj\Nekl_proj\bin\Debug\Nekl_proj.exe.config
+E:\123123123\Nekl_proj\Nekl_proj\bin\Debug\Nekl_proj.exe
+E:\123123123\Nekl_proj\Nekl_proj\bin\Debug\Nekl_proj.pdb
+E:\123123123\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.csprojResolveAssemblyReference.cache
+E:\123123123\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.Form1.resources
+E:\123123123\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.Properties.Resources.resources
+E:\123123123\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.csproj.GenerateResource.cache
+E:\123123123\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.csproj.CoreCompileInputs.cache
+E:\123123123\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.exe
+E:\123123123\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.pdb

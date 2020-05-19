@@ -24,8 +24,17 @@ namespace Nekl_proj
         static Size SettingsSize = new Size();
         static Color WaterColor = Color.FromArgb(0,162,211);
         static System.Timers.Timer Timer;
-        static double WaterLevel = 200.0;
+
+        static double WaterLevel = 100.0;
+        static double WavePower = 0.1;
         static double time = 0;
+
+        static PointF wind = new PointF(0, 0);
+        static PointF cur_wind = new PointF(0, 0);
+        static bool wind_changed = false;
+        static PointF wind_change_speed = new PointF(0,0);
+
+        static double eps = 0.1;
         
         public Form1()
         {
@@ -90,6 +99,7 @@ namespace Nekl_proj
             Controls.Add(TopBox);
             
             timer1.Start();
+            
         }
 
         private void Form1_Shown(object sender, EventArgs e)
@@ -104,7 +114,12 @@ namespace Nekl_proj
             WaterLeft.Location = new Point(5, LeftBox.Location.Y + LeftBox.Size.Height - (int)(WaterLevel + CurrentLevel * Math.Sin(time)));
             WaterLeft.Size = new Size(LeftBox.Size.Width, (int)(WaterLevel + CurrentLevel * Math.Sin(time)));
             ShipLeft.Location = new Point(LeftBox.Location.X + LeftBox.Size.Width / 8, LeftBox.Location.Y + (int)(LeftBox.Size.Height / 1.174) - (int)(WaterLevel + CurrentLevel * Math.Sin(time)));
+
             time += 0.05;
+
+            if (wind_changed)
+                if (Math.Abs(wind.X - cur_wind.X) + Math.Abs(wind.Y - cur_wind.Y) > eps)
+                    cur_wind = Physics.Wind_to_destination(cur_wind, wind_change_speed);
         }
     }
 }
