@@ -24,9 +24,12 @@ namespace Nekl_proj
         static Size SettingsSize = new Size();
         static Color WaterColor = Color.FromArgb(0,162,211);
         static System.Timers.Timer Timer;
+        static PictureBox[,,] Containers = new PictureBox[5,3,4];
+        static TrackBar WavePowerBar = null;
+        static Label WaterPowerText = null;
 
-        static double WaterLevel = 100.0;
-        static double WavePower = 0.1;
+        static double WaterLevel = 150.0;
+        static double WavePower = 0.05;
         static double time = 0;
 
         static PointF wind = new PointF(0, 0);
@@ -92,11 +95,38 @@ namespace Nekl_proj
                 Image = Properties.Resources.ShipTop
             };
 
+            WavePowerBar = new TrackBar
+            {
+                Location = new Point(TopBox.Width + 5, 80),
+                Size = new Size(SettingsSize.Width - 20, 10),
+                TickFrequency = 1,
+                Minimum = 1,
+                Maximum = 10,
+                Value = (int)(WavePower * 100),
+                SmallChange = 1,
+                LargeChange = 1
+            };
+
+            WavePowerBar.ValueChanged += WavePowerBar_Changed;
+
+            WaterPowerText = new Label
+            {
+                Location = new Point(TopBox.Width + 15, 30),
+                Size = new Size(SettingsSize.Width - 30, 20),
+                Text = "Амплитуда волн",
+                Font = new Font("Arial", 14, FontStyle.Regular)
+            };
+
+
+
+
             Controls.Add(ShipTop);
             Controls.Add(ShipLeft);
             Controls.Add(WaterLeft);
             Controls.Add(LeftBox);
             Controls.Add(TopBox);
+            Controls.Add(WavePowerBar);
+            Controls.Add(WaterPowerText);
             
             timer1.Start();
             
@@ -107,6 +137,11 @@ namespace Nekl_proj
             
         }
 
+        private void WavePowerBar_Changed(object sender, EventArgs e)
+        {
+            WavePower = WavePowerBar.Value / 100.0;
+        }
+
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
@@ -115,7 +150,7 @@ namespace Nekl_proj
             WaterLeft.Size = new Size(LeftBox.Size.Width, (int)(WaterLevel + CurrentLevel * Math.Sin(time)));
             ShipLeft.Location = new Point(LeftBox.Location.X + LeftBox.Size.Width / 8, LeftBox.Location.Y + (int)(LeftBox.Size.Height / 1.174) - (int)(WaterLevel + CurrentLevel * Math.Sin(time)));
 
-            time += 0.05;
+            time += WavePower*0.8;
 
             if (wind_changed)
                 if (Math.Abs(wind.X - cur_wind.X) + Math.Abs(wind.Y - cur_wind.Y) > eps)
