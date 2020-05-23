@@ -82,9 +82,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ShipTop.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\sea.png" />
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +92,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ShipLeft1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disabled_cross.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\enabled_cross.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShipTop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gor_reika_top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lulka.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reika krana left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vert_reika_top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reika_krana_left.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
