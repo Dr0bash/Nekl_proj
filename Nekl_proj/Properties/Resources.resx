@@ -118,16 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="disabled_cross" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\disabled_cross.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enabled_cross" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\enabled_cross.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gor_reika_top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gor_reika_top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="lulka" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lulka.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reika_krana_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\reika_krana_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="sea" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sea.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ShipLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ShipLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ShipLeft1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ShipLeft1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ShipTop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ShipTop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="vert_reika_top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\vert_reika_top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

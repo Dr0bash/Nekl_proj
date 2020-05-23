@@ -63,6 +63,56 @@ namespace Nekl_proj.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap disabled_cross {
+            get {
+                object obj = ResourceManager.GetObject("disabled_cross", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap enabled_cross {
+            get {
+                object obj = ResourceManager.GetObject("enabled_cross", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gor_reika_top {
+            get {
+                object obj = ResourceManager.GetObject("gor_reika_top", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap lulka {
+            get {
+                object obj = ResourceManager.GetObject("lulka", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reika_krana_left {
+            get {
+                object obj = ResourceManager.GetObject("reika_krana_left", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap sea {
             get {
                 object obj = ResourceManager.GetObject("sea", resourceCulture);
@@ -83,9 +133,9 @@ namespace Nekl_proj.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ShipLeft1 {
+        internal static System.Drawing.Bitmap ShipTop {
             get {
-                object obj = ResourceManager.GetObject("ShipLeft1", resourceCulture);
+                object obj = ResourceManager.GetObject("ShipTop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +143,9 @@ namespace Nekl_proj.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ShipTop {
+        internal static System.Drawing.Bitmap vert_reika_top {
             get {
-                object obj = ResourceManager.GetObject("ShipTop", resourceCulture);
+                object obj = ResourceManager.GetObject("vert_reika_top", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
