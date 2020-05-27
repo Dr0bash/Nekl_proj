@@ -156,28 +156,51 @@ namespace Nekl_proj
 
             AmplBar.ValueChanged += AmplBar_Changed;
 
-            int sch = 99;
+            //krestiki
+            int sch = 10;
             for (int i = 0; i < 3; ++i)
             {
                 for (int j = 0; j < 5; ++j)
                 {
                     ContainersWeb[i, j] = new PictureBox
                     {
-                        Location = new Point(ShipTop.Location.X + (ShipTop.Size.Width / 24) + (int)(j* ShipTop.Size.Width / 6.34), ShipTop.Location.Y + ShipTop.Size.Height / 10 + (int)(i * ShipTop.Size.Height / 3.6)),
+                        Location = new Point(ShipTop.Location.X + (ShipTop.Size.Width / 24) + (int)(j * ShipTop.Size.Width / 6.34), ShipTop.Location.Y + ShipTop.Size.Height / 10 + (int)(i * ShipTop.Size.Height / 3.6)),
                         SizeMode = PictureBoxSizeMode.StretchImage,
                         Size = new Size((int)(ShipTop.Size.Width / 6.74), (int)(ShipTop.Size.Height / 4.22)),
-                        Image = Properties.Resources.disabled_cross,
-                        BorderStyle = BorderStyle.FixedSingle,
+                        BackColor = Color.FromArgb(128,128,128),
+                        BorderStyle = BorderStyle.None,
                         Padding = new Padding(0),
+                        Image = Properties.Resources.disabled_cross,
                         Tag = i*10 + j
                     };
                     ContainersWeb[i, j].MouseEnter += ContainersWeb_MouseEnter;
                     ContainersWeb[i, j].MouseLeave += ContainersWeb_MouseLeave;
                     ContainersWeb[i, j].MouseClick += ContainersWeb_MouseClick;
                     allObj[sch] = ContainersWeb[i, j];
-                    sch -= 1;
+                    sch += 1;
                 }
             }
+
+            //containers
+            //Size consize = new Size((int)(LeftBox.Size.Width / 8.48), (int)(LeftBox.Size.Height / 13.9));
+            //for (int i = 0; i < 4; ++i)
+            //{
+            //    for (int j = 0; j < 5; ++j)
+            //    {
+
+            //        allObj[sch] = new PictureBox
+            //        {
+            //            Location = new Point(ShipLeft.Location.X + (ShipLeft.Size.Width / 24) + j * (int)(consize.Width + ShipLeft.Size.Width / 94.5), ShipLeft.Location.Y - i * (consize.Height)),
+            //            Size = consize,
+            //            BorderStyle = BorderStyle.None,
+            //            BackColor = Color.White
+
+            //            Tag = i * 10 + j
+            //        };
+            //        sch += 1;
+            //    }
+            //}
+
 
             ContTop = new PictureBox
             {
@@ -254,11 +277,11 @@ namespace Nekl_proj
             ContTop.Paint += new System.Windows.Forms.PaintEventHandler(ContTop_Paint);
 
 
-            // Add the PictureBox control to the Form.
-
             allObj[1] = LulkaTop;
-            allObj[3] = ContTop;
-            allObj[4] = ContLeft;
+            allObj[2] = ContTop;
+            allObj[3] = ContLeft;
+            //10-34 krestiki
+            //35-54 boxes left
             allObj[100] = LulkaLeft;
             allObj[101] = ReikaLeft;
             allObj[102] = ShipTop;
@@ -333,7 +356,52 @@ namespace Nekl_proj
 
         private void Begin_Click(object sender, EventArgs e)
         {
+            int level = 0;
+            for (int i = 4; i < 19; ++i)
+            {
+                ((PictureBox)Controls[i]).Image = null;
+                Controls[i].Enabled = false;
+            }
+            if (Containers[PlaceForCont.Item1, PlaceForCont.Item2, 0] != null)
+            {
+                if (Containers[PlaceForCont.Item1, PlaceForCont.Item2, 1] != null)
+                {
+                    if (Containers[PlaceForCont.Item1, PlaceForCont.Item2, 2] != null)
+                    {
+                        level = 3;
+                    }
+                    else
+                    {
+                        level = 2;
+                    }
+                }
+                else
+                {
+                    level = 1;
+                }
+            }
+            else
+                level = 0;
 
+            //TODO
+            //анимация
+
+            for (int i = 4; i < 19; ++i)
+            {
+                int temp = (int)((PictureBox)Controls[i]).Tag;
+                if (Containers[temp / 10, temp % 10, 3] == null)
+                {
+                    ((PictureBox)Controls[i]).Image = Properties.Resources.disabled_cross;
+                    Controls[i].Enabled = true;
+                }
+            }
+            //for (int i = 0; i < 3; ++i)
+            // for (int j = 0; j < 5; ++j)
+            //Controls[ContainersWeb[i, j]].Enabled = false;
+            //анимация
+            //ContainersWeb[PlaceForCont.Item1, PlaceForCont.Item2].BackColor = Color.Yellow;
+
+            //Controls[ContainersWeb[0,0].Name].BackColor = Color.Yellow;
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
