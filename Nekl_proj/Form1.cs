@@ -63,6 +63,12 @@ namespace Nekl_proj
         static int krestikloc = 5;
         int contsloc = krestikloc + 15;
         static int[] oldlocs = new int[20];
+        int level = 0;
+        Random r = new Random();
+
+        //animation variable
+        bool animation = false;
+        int animationspeed = 4;
 
         public Form1()
         {
@@ -216,7 +222,8 @@ namespace Nekl_proj
                         BackColor = Color.White,
                         Tag = i * 10 + j
                     };
-                    oldlocs[o] = ShipLeft.Location.Y - i * (consize.Height);
+                    oldlocs[o] = ShipLeft.Location.Y - i * consize.Height;
+                    //((PictureBox)allObj[sch]).Paint += new System.Windows.Forms.PaintEventHandler(LeftBox_Paint);
                     ++o;
                     sch += 1;
                 }
@@ -387,8 +394,7 @@ namespace Nekl_proj
 
         private void Begin_Click(object sender, EventArgs e)
         {
-            var r = new Random();
-            int level = 0;
+            level = 0;
             for (int i = krestikloc; i < krestikloc+15; ++i)
             {
                 ((PictureBox)Controls[i]).Image = null;
@@ -413,15 +419,17 @@ namespace Nekl_proj
                 }
             }
 
-            //TODO
-            //анимация
-            //Thread.Sleep(1000);
+            animation = true;
+            Begin.Enabled = false;
+        }
 
+        private void after_animation()
+        {
             ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, level] = true;
             Containers[PlaceForCont.X, PlaceForCont.Y, level] = new Container(new Physics.Point3D(ContainerLocation.x, ContainerLocation.y, ContainerLocation.z));
 
             bool f = true;
-            for (int i = PlaceForCont.X + 1; i<3; ++i)
+            for (int i = PlaceForCont.X + 1; i < 3; ++i)
             {
                 if (ContainerPlaced[i, PlaceForCont.Y, level])
                 {
@@ -448,8 +456,12 @@ namespace Nekl_proj
                     Controls[i].Enabled = true;
                 }
             }
+            Begin.Enabled = true;
             if (ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, 3])
                 Begin.Enabled = false;
+            var ContPlace = ContainersWeb[PlaceForCont.X, PlaceForCont.Y];
+            ContLeft.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, LeftBox.Location.Y + (int)(LeftBox.Size.Height / 4.3));
+            TrosLeft = new Tuple<Point, Point>(new Point(LulkaLeft.Location.X + LulkaLeft.Size.Width / 2 - LeftBox.Location.X, LulkaLeft.Location.Y + LulkaLeft.Size.Height - 1 - LeftBox.Location.Y), new Point(ContLeft.Location.X + ContLeft.Size.Width / 2 - LeftBox.Location.X, ContLeft.Location.Y - LeftBox.Location.Y));
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
@@ -470,6 +482,20 @@ namespace Nekl_proj
             }
 
             time += WavePower*0.8;
+
+            if (animation)
+            {
+                var ContPlace = ContainersWeb[PlaceForCont.X, PlaceForCont.Y];
+                ContLeft.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y + animationspeed);
+                TrosLeft = new Tuple<Point, Point>(new Point(LulkaLeft.Location.X + LulkaLeft.Size.Width / 2 - LeftBox.Location.X, LulkaLeft.Location.Y + LulkaLeft.Size.Height - 1 - LeftBox.Location.Y), new Point(ContLeft.Location.X + ContLeft.Size.Width / 2 - LeftBox.Location.X, ContLeft.Location.Y - LeftBox.Location.Y));
+                if ((ContLeft.Location.Y + ContLeft.Size.Height) >= ShipLeft.Location.Y - level * ContLeft.Size.Height)
+                {
+                    animation = false;
+                    after_animation();
+                }
+            }
+
+
 
             //фезека
 
