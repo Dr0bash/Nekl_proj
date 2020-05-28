@@ -117,5 +117,11 @@
   <ItemGroup>
     <None Include="Resources\reika_krana_left.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\enabled_cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disabled_cross.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
