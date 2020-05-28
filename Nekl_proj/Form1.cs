@@ -223,7 +223,8 @@ namespace Nekl_proj
                         Tag = i * 10 + j
                     };
                     oldlocs[o] = ShipLeft.Location.Y - i * consize.Height;
-                    //((PictureBox)allObj[sch]).Paint += new System.Windows.Forms.PaintEventHandler(LeftBox_Paint);
+                    ((PictureBox)allObj[sch]).Paint += new PaintEventHandler(ContsLeft_Paint);
+                    ((PictureBox)allObj[sch]).Dock = DockStyle.None;
                     ++o;
                     sch += 1;
                 }
@@ -334,12 +335,31 @@ namespace Nekl_proj
 
         }
 
+        //Paint event
         private void LeftBox_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
             g.DrawLine(System.Drawing.Pens.Black, TrosLeft.Item1.X, TrosLeft.Item1.Y, TrosLeft.Item2.X, TrosLeft.Item2.Y);
         }
+
+        private void ContsLeft_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        {
+
+            var currentCont = sender as PictureBox;
+            int begx = LeftBox.Location.X - currentCont.Location.X;
+            int begy = LeftBox.Location.Y - currentCont.Location.Y;
+            
+            Graphics g = e.Graphics;
+            int addition = 0;
+            if (currentCont.BorderStyle == BorderStyle.None)
+                addition = 1;
+
+
+            g.DrawLine(System.Drawing.Pens.Black, begx + TrosLeft.Item1.X + addition, begy + TrosLeft.Item1.Y, begx + TrosLeft.Item2.X + addition, begy + TrosLeft.Item2.Y);
+            
+        }
+        
 
         private void ContTop_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
@@ -419,11 +439,25 @@ namespace Nekl_proj
                 }
             }
 
+            for (int i = PlaceForCont.X + 1; i < 3; ++i)
+                for (int j = 0; j < 5; ++j)
+                {
+                    if (ContainerPlaced[i, j, 0])
+                        TurnOff(i, j, 0);
+                }
+
             animation = true;
             Begin.Enabled = false;
         }
 
-        private void after_animation()
+        private void TurnOff(int i, int j, int lvl)
+        {
+            ((PictureBox)Controls[contsloc + lvl*5 + j]).Paint -= new PaintEventHandler(ContsLeft_Paint);
+            if (lvl < 3 && ContainerPlaced[i, j, lvl + 1])
+            TurnOff(i, j, lvl + 1);
+        }
+
+        private void After_animation()
         {
             ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, level] = true;
             Containers[PlaceForCont.X, PlaceForCont.Y, level] = new Container(new Physics.Point3D(ContainerLocation.x, ContainerLocation.y, ContainerLocation.z));
@@ -456,6 +490,14 @@ namespace Nekl_proj
                     Controls[i].Enabled = true;
                 }
             }
+
+            for (int i = contsloc; i < contsloc + 20; ++i)
+            {
+                ((PictureBox)Controls[i]).Paint -= new PaintEventHandler(ContsLeft_Paint);
+                ((PictureBox)Controls[i]).Paint += new PaintEventHandler(ContsLeft_Paint);
+            }
+
+
             Begin.Enabled = true;
             if (ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, 3])
                 Begin.Enabled = false;
@@ -463,6 +505,7 @@ namespace Nekl_proj
             ContLeft.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, LeftBox.Location.Y + (int)(LeftBox.Size.Height / 4.3));
             TrosLeft = new Tuple<Point, Point>(new Point(LulkaLeft.Location.X + LulkaLeft.Size.Width / 2 - LeftBox.Location.X, LulkaLeft.Location.Y + LulkaLeft.Size.Height - 1 - LeftBox.Location.Y), new Point(ContLeft.Location.X + ContLeft.Size.Width / 2 - LeftBox.Location.X, ContLeft.Location.Y - LeftBox.Location.Y));
         }
+
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
@@ -479,6 +522,7 @@ namespace Nekl_proj
             for (int i = contsloc; i < contsloc + 20; ++i)
             {
                 ((PictureBox)Controls[i]).Location = new Point(((PictureBox)Controls[i]).Location.X, oldlocs[i - contsloc] - (int)(Ampl*Math.Sin(time)) - ContLeft.Size.Height + 1);
+                ((PictureBox)Controls[i]).Refresh();
             }
 
             time += WavePower*0.8;
@@ -491,7 +535,7 @@ namespace Nekl_proj
                 if ((ContLeft.Location.Y + ContLeft.Size.Height) >= ShipLeft.Location.Y - level * ContLeft.Size.Height)
                 {
                     animation = false;
-                    after_animation();
+                    After_animation();
                 }
             }
 
