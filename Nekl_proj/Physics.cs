@@ -46,7 +46,7 @@ namespace Nekl_proj
 
         public static PointF WindChangeByContainers(int[,] topContsHeights, PointF wind, Point contGridLoc)
         {
-            PointF answer = new PointF();
+            //PointF answer = new PointF();
             double x = wind.X;
             double y = wind.Y;
             int cX = contGridLoc.X;
@@ -199,7 +199,7 @@ namespace Nekl_proj
                     throw new Exception("what");
             }
             
-            return answer;
+            return wind;
         }
     }
 }
