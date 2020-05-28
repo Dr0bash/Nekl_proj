@@ -37,7 +37,7 @@ namespace Nekl_proj
         static PictureBox[,] ContainersWeb = new PictureBox[3, 5];
         static Control[] allObj = new Control[150];
         static Button Begin = null;
-        static Tuple<int, int> PlaceForCont = new Tuple<int, int>(0,0);
+        static Point PlaceForCont = new Point(0,0);
         static Tuple<Point, Point> TrosLeft = null;
         static Tuple<Point, Point> TrosTop = null;
 
@@ -346,7 +346,7 @@ namespace Nekl_proj
             PictureBox ContPlace = sender as PictureBox;
             LulkaLeft.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - LulkaLeft.Size.Width / 2, LulkaLeft.Location.Y);
             LulkaTop.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - LulkaTop.Size.Width / 2, ContPlace.Location.Y + ContPlace.Size.Height / 2 - LulkaTop.Size.Height / 2);
-            PlaceForCont = new Tuple<int, int>((int)ContPlace.Tag / 10, (int)ContPlace.Tag % 10);
+            PlaceForCont = new Point((int)ContPlace.Tag / 10, (int)ContPlace.Tag % 10);
             ContLeft.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
             ContTop.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContTop.Size.Width / 2, ContPlace.Location.Y + ContPlace.Size.Height / 2 - ContTop.Size.Height / 2);
             TrosLeft = new Tuple<Point, Point>(new Point(LulkaLeft.Location.X + LulkaLeft.Size.Width / 2 - LeftBox.Location.X, LulkaLeft.Location.Y + LulkaLeft.Size.Height - 1 - LeftBox.Location.Y), new Point(ContLeft.Location.X + ContLeft.Size.Width / 2 - LeftBox.Location.X, ContLeft.Location.Y - LeftBox.Location.Y));
@@ -362,11 +362,11 @@ namespace Nekl_proj
                 ((PictureBox)Controls[i]).Image = null;
                 Controls[i].Enabled = false;
             }
-            if (Containers[PlaceForCont.Item1, PlaceForCont.Item2, 0] != null)
+            if (Containers[PlaceForCont.X, PlaceForCont.Y, 0] != null)
             {
-                if (Containers[PlaceForCont.Item1, PlaceForCont.Item2, 1] != null)
+                if (Containers[PlaceForCont.X, PlaceForCont.Y, 1] != null)
                 {
-                    if (Containers[PlaceForCont.Item1, PlaceForCont.Item2, 2] != null)
+                    if (Containers[PlaceForCont.X, PlaceForCont.Y, 2] != null)
                     {
                         level = 3;
                     }
@@ -386,15 +386,15 @@ namespace Nekl_proj
             //TODO
             //анимация
 
-            for (int i = 4; i < 19; ++i)
-            {
-                int temp = (int)((PictureBox)Controls[i]).Tag;
-                if (Containers[temp / 10, temp % 10, 3] == null)
-                {
-                    ((PictureBox)Controls[i]).Image = Properties.Resources.disabled_cross;
-                    Controls[i].Enabled = true;
-                }
-            }
+            //for (int i = 4; i < 19; ++i)
+            //{
+            //    int temp = (int)((PictureBox)Controls[i]).Tag;
+            //    if (Containers[temp / 10, temp % 10, 3] == null)
+            //    {
+            //        ((PictureBox)Controls[i]).Image = Properties.Resources.disabled_cross;
+            //        Controls[i].Enabled = true;
+            //    }
+            //}
             //for (int i = 0; i < 3; ++i)
             // for (int j = 0; j < 5; ++j)
             //Controls[ContainersWeb[i, j]].Enabled = false;
