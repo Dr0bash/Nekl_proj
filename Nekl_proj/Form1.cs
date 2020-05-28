@@ -40,6 +40,7 @@ namespace Nekl_proj
         static Point PlaceForCont = new Point(0,0);
         static Tuple<Point, Point> TrosLeft = null;
         static Tuple<Point, Point> TrosTop = null;
+        static double rope_length = 0;
 
         static double Ampl = 20;
         static double WaterLevel = 120.0;
@@ -306,6 +307,9 @@ namespace Nekl_proj
             allObj[109] = AmplText;
             allObj[110] = AmplBar;
             allObj[111] = Begin;
+
+            // Начальная длина тросса
+            // rope_length = Math.Sqrt(Math.Pow(TrosTop.Item1.X - TrosTop.Item2.X, 2) + Math.Pow(TrosTop.Item1.Y - TrosTop.Item2.Y, 2) + Math.Pow(TrosLeft.Item1.Y - TrosLeft.Item2.Y, 2));
            
             Controls.AddRange(allObj);
 
@@ -431,8 +435,15 @@ namespace Nekl_proj
 
             time += WavePower*0.8;
 
+            //фезека
+
+            // Tuple<Point, Point> TrosLeft2 = TrosLeft;
+            // Physics.Point3D point3dtemp = Physics.Container_Movement(new PointF(10, 1), 4, rope_length);
+            // TrosLeft = new Tuple<Point, Point>(TrosLeft2.Item1, new Point(TrosLeft2.Item1.X + Convert.ToInt32(point3dtemp.x), Convert.ToInt32(TrosLeft2.Item1.Y + point3dtemp.z)));
+            // ContLeft.Location = new Point(TrosLeft.Item2.X - ContLeft.Size.Width / 2, TrosLeft.Item2.Y + LeftBox.Location.Y);
+
             //Tros = new Tuple<Point, Point>(new Point(Tros.Item1.X + 1, Tros.Item1.Y), new Point(Tros.Item2.X, Tros.Item2.Y));
-            //LeftBox.Refresh();
+            LeftBox.Refresh();
 
             if (wind_changed)
                 if (Math.Abs(wind.X - cur_wind.X) + Math.Abs(wind.Y - cur_wind.Y) > eps)
