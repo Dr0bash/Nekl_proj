@@ -51,6 +51,11 @@ namespace Nekl_proj
         static bool wind_changed = false;
         static PointF wind_change_speed = new PointF(0,0);
 
+        static bool[,,] ContainerPlaced = new bool[5, 3, 4];
+        public static Physics.Point3D ContainerLocation;
+        public static int PcontHeight;
+
+
         static double eps = 0.1;
         
         public Form1()
@@ -68,7 +73,14 @@ namespace Nekl_proj
             Location = new Point(-7, 0);
             SettingsSize.Width = (int)(Size.Width / 7);
             SettingsSize.Height = Size.Height;
+
+            for (int i = 0; i < 5; i++)
+                for (int j = 0; j < 3; j++)
+                    for (int k = 0; k < 4; k++)
+                        ContainerPlaced[i, j, k] = false;
+
             
+
             TopBox = new PictureBox
             {
                 Location = new Point(5, 5),
@@ -275,7 +287,9 @@ namespace Nekl_proj
             Controls.AddRange(allObj);
 
             timer1.Start();
-            
+
+            ContainerLocation = new Physics.Point3D(ContTop.Location.X, ContTop.Location.Y, ContLeft.Location.Y);
+
         }
 
         private void LeftBox_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
@@ -328,6 +342,10 @@ namespace Nekl_proj
             ContTop.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContTop.Size.Width / 2, ContPlace.Location.Y + ContPlace.Size.Height / 2 - ContTop.Size.Height / 2);
             TrosLeft = new Tuple<Point, Point>(new Point(LulkaLeft.Location.X + LulkaLeft.Size.Width / 2 - LeftBox.Location.X, LulkaLeft.Location.Y + LulkaLeft.Size.Height - 1 - LeftBox.Location.Y), new Point(ContLeft.Location.X + ContLeft.Size.Width / 2 - LeftBox.Location.X, ContLeft.Location.Y - LeftBox.Location.Y));
             TrosTop = new Tuple<Point, Point>(new Point(ContTop.Size.Width / 2, ContTop.Size.Height / 2), new Point(-ContTop.Location.X + LulkaTop.Location.X + LulkaTop.Size.Width / 2, -ContTop.Location.Y + LulkaTop.Location.Y + LulkaTop.Size.Height / 2));
+
+            ContainerLocation = new Physics.Point3D(ContTop.Location.X, ContTop.Location.Y, ContLeft.Location.Y);
+            PcontHeight = ContLeft.Size.Height;
+
             LeftBox.Refresh();
         }
 
