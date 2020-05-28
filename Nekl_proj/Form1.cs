@@ -29,7 +29,7 @@ namespace Nekl_proj
         static Size SettingsSize = new Size();
         static Color WaterColor = Color.FromArgb(0, 162, 211);
         static System.Timers.Timer Timer;
-        static PictureBox[,,] Containers = new PictureBox[5, 3, 4];
+        static Container[,,] Containers = new Container[3, 5, 4];
         static TrackBar WavePowerBar = null;
         static Label WavePowerText = null;
         static TrackBar AmplBar = null;
@@ -52,13 +52,18 @@ namespace Nekl_proj
         static bool wind_changed = false;
         static PointF wind_change_speed = new PointF(0,0);
 
-        static bool[,,] ContainerPlaced = new bool[5, 3, 4];
+        static bool[,,] ContainerPlaced = new bool[3, 5, 4];
         public static Physics.Point3D ContainerLocation;
         public static int PcontHeight;
 
 
         static double eps = 0.1;
-        
+
+        //graph variables for right introducing
+        static int krestikloc = 5;
+        int contsloc = krestikloc + 15;
+        static int[] oldlocs = new int[20];
+
         public Form1()
         {
             InitializeComponent();
@@ -75,8 +80,8 @@ namespace Nekl_proj
             SettingsSize.Width = (int)(Size.Width / 7);
             SettingsSize.Height = Size.Height;
 
-            for (int i = 0; i < 5; i++)
-                for (int j = 0; j < 3; j++)
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 5; j++)
                     for (int k = 0; k < 4; k++)
                         ContainerPlaced[i, j, k] = false;
 
@@ -170,7 +175,7 @@ namespace Nekl_proj
             AmplBar.ValueChanged += AmplBar_Changed;
 
             //krestiki
-            int sch = 10;
+            int sch = krestikloc;
             for (int i = 0; i < 3; ++i)
             {
                 for (int j = 0; j < 5; ++j)
@@ -194,25 +199,28 @@ namespace Nekl_proj
                 }
             }
 
-            //containers
-            //Size consize = new Size((int)(LeftBox.Size.Width / 8.48), (int)(LeftBox.Size.Height / 13.9));
-            //for (int i = 0; i < 4; ++i)
-            //{
-            //    for (int j = 0; j < 5; ++j)
-            //    {
 
-            //        allObj[sch] = new PictureBox
-            //        {
-            //            Location = new Point(ShipLeft.Location.X + (ShipLeft.Size.Width / 24) + j * (int)(consize.Width + ShipLeft.Size.Width / 94.5), ShipLeft.Location.Y - i * (consize.Height)),
-            //            Size = consize,
-            //            BorderStyle = BorderStyle.None,
-            //            BackColor = Color.White
+            //containersForLeft
+            int o = 0;
+            Size consize = new Size((int)(LeftBox.Size.Width / 8.48), (int)(LeftBox.Size.Height / 13.9));
+            for (int i = 0; i < 4; ++i)
+            {
+                for (int j = 0; j < 5; ++j)
+                {
 
-            //            Tag = i * 10 + j
-            //        };
-            //        sch += 1;
-            //    }
-            //}
+                    allObj[sch] = new PictureBox
+                    {
+                        Location = new Point(ShipLeft.Location.X + (ShipLeft.Size.Width / 24) + j * (int)(consize.Width + ShipLeft.Size.Width / 94.5), ShipLeft.Location.Y - i * (consize.Height)),
+                        Size = consize,
+                        BorderStyle = BorderStyle.None,
+                        BackColor = Color.White,
+                        Tag = i * 10 + j
+                    };
+                    oldlocs[o] = ShipLeft.Location.Y - i * (consize.Height);
+                    ++o;
+                    sch += 1;
+                }
+            }
 
 
             ContTop = new PictureBox
@@ -293,12 +301,12 @@ namespace Nekl_proj
             allObj[1] = LulkaTop;
             allObj[2] = ContTop;
             allObj[3] = ContLeft;
+            allObj[4] = ShipLeft;
             //10-34 krestiki
             //35-54 boxes left
             allObj[100] = LulkaLeft;
             allObj[101] = ReikaLeft;
             allObj[102] = ShipTop;
-            allObj[103] = ShipLeft;
             allObj[104] = WaterLeft;
             allObj[105] = LeftBox;
             allObj[106] = TopBox;
@@ -369,6 +377,7 @@ namespace Nekl_proj
             ContTop.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContTop.Size.Width / 2, ContPlace.Location.Y + ContPlace.Size.Height / 2 - ContTop.Size.Height / 2);
             TrosLeft = new Tuple<Point, Point>(new Point(LulkaLeft.Location.X + LulkaLeft.Size.Width / 2 - LeftBox.Location.X, LulkaLeft.Location.Y + LulkaLeft.Size.Height - 1 - LeftBox.Location.Y), new Point(ContLeft.Location.X + ContLeft.Size.Width / 2 - LeftBox.Location.X, ContLeft.Location.Y - LeftBox.Location.Y));
             TrosTop = new Tuple<Point, Point>(new Point(ContTop.Size.Width / 2, ContTop.Size.Height / 2), new Point(-ContTop.Location.X + LulkaTop.Location.X + LulkaTop.Size.Width / 2, -ContTop.Location.Y + LulkaTop.Location.Y + LulkaTop.Size.Height / 2));
+            Begin.Enabled = true;
 
             ContainerLocation = new Physics.Point3D(ContTop.Location.X, ContTop.Location.Y, ContLeft.Location.Y);
             PcontHeight = ContLeft.Size.Height;
@@ -378,17 +387,18 @@ namespace Nekl_proj
 
         private void Begin_Click(object sender, EventArgs e)
         {
+            var r = new Random();
             int level = 0;
-            for (int i = 4; i < 19; ++i)
+            for (int i = krestikloc; i < krestikloc+15; ++i)
             {
                 ((PictureBox)Controls[i]).Image = null;
                 Controls[i].Enabled = false;
             }
-            if (Containers[PlaceForCont.X, PlaceForCont.Y, 0] != null)
+            if (ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, 0])
             {
-                if (Containers[PlaceForCont.X, PlaceForCont.Y, 1] != null)
+                if (ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, 1])
                 {
-                    if (Containers[PlaceForCont.X, PlaceForCont.Y, 2] != null)
+                    if (ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, 2])
                     {
                         level = 3;
                     }
@@ -402,36 +412,62 @@ namespace Nekl_proj
                     level = 1;
                 }
             }
-            else
-                level = 0;
 
             //TODO
             //анимация
+            //Thread.Sleep(1000);
 
-            //for (int i = 4; i < 19; ++i)
-            //{
-            //    int temp = (int)((PictureBox)Controls[i]).Tag;
-            //    if (Containers[temp / 10, temp % 10, 3] == null)
-            //    {
-            //        ((PictureBox)Controls[i]).Image = Properties.Resources.disabled_cross;
-            //        Controls[i].Enabled = true;
-            //    }
-            //}
-            //for (int i = 0; i < 3; ++i)
-            // for (int j = 0; j < 5; ++j)
-            //Controls[ContainersWeb[i, j]].Enabled = false;
-            //анимация
-            //ContainersWeb[PlaceForCont.Item1, PlaceForCont.Item2].BackColor = Color.Yellow;
+            ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, level] = true;
+            Containers[PlaceForCont.X, PlaceForCont.Y, level] = new Container(new Physics.Point3D(ContainerLocation.x, ContainerLocation.y, ContainerLocation.z));
 
-            //Controls[ContainersWeb[0,0].Name].BackColor = Color.Yellow;
+            bool f = true;
+            for (int i = PlaceForCont.X + 1; i<3; ++i)
+            {
+                if (ContainerPlaced[i, PlaceForCont.Y, level])
+                {
+                    f = false;
+                    break;
+                }
+            }
+            if (f)
+            {
+                ((PictureBox)Controls[contsloc + level * 5 + PlaceForCont.Y]).BackColor = ContLeft.BackColor;
+                ((PictureBox)Controls[contsloc + level * 5 + PlaceForCont.Y]).BorderStyle = BorderStyle.FixedSingle;
+            }
+
+            ContainersWeb[PlaceForCont.X, PlaceForCont.Y].BackColor = ContLeft.BackColor;
+            Color c = Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255));
+            ContLeft.BackColor = c;
+            ContTop.BackColor = c;
+            for (int i = krestikloc; i < krestikloc + 15; ++i)
+            {
+                int temp = (int)((PictureBox)Controls[i]).Tag;
+                if (!ContainerPlaced[temp / 10, temp % 10, 3])
+                {
+                    ((PictureBox)Controls[i]).Image = Properties.Resources.disabled_cross;
+                    Controls[i].Enabled = true;
+                }
+            }
+            if (ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, 3])
+                Begin.Enabled = false;
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            
+            //water and ship
             WaterLeft.Location = new Point(5, LeftBox.Location.Y + LeftBox.Size.Height - (int)(WaterLevel + Ampl * Math.Sin(time)));
             WaterLeft.Size = new Size(LeftBox.Size.Width, (int)(WaterLevel + Ampl * Math.Sin(time)));
             ShipLeft.Location = new Point(ShipLeft.Location.X, LeftBox.Location.Y + (int)(LeftBox.Size.Height / 1.088) - (int)(WaterLevel + Ampl * Math.Sin(time)));
+
+            //containers
+
+            Size consize = ContLeft.Size;
+            
+            
+            for (int i = contsloc; i < contsloc + 20; ++i)
+            {
+                ((PictureBox)Controls[i]).Location = new Point(((PictureBox)Controls[i]).Location.X, oldlocs[i - contsloc] - (int)(Ampl*Math.Sin(time)) - ContLeft.Size.Height + 1);
+            }
 
             time += WavePower*0.8;
 
@@ -448,6 +484,16 @@ namespace Nekl_proj
             if (wind_changed)
                 if (Math.Abs(wind.X - cur_wind.X) + Math.Abs(wind.Y - cur_wind.Y) > eps)
                     cur_wind = Physics.Wind_to_destination(cur_wind, wind_change_speed);
+        }
+    }
+
+    public class Container
+    {
+        private static Physics.Point3D Location;
+
+        public Container(Physics.Point3D l)
+        {
+            Location = l;
         }
     }
 }
