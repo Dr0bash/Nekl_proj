@@ -17,6 +17,7 @@ namespace Nekl_proj
         static double scale = 1.0;
         static PictureBox LeftBox = null;
         static PictureBox TopBox = null;
+        static PictureBox SettingsBox = null;
         static PictureBox WaterLeft = null;
         static PictureBox ShipLeft = null;
         static PictureBox ShipTop = null;
@@ -53,7 +54,7 @@ namespace Nekl_proj
         static double WavePower = 0.05;
         static double time = 0;
 
-        static PointF wind = new PointF(0, 0);
+        static PointF wind = new PointF(15, 25);
         static PointF cur_wind = new PointF(0, 0);
         static bool wind_changed = false;
         static PointF wind_change_speed = new PointF(0,0);
@@ -69,8 +70,8 @@ namespace Nekl_proj
         static double eps = 0.1;
 
         //graph variables for right introducing
-        static int krestikloc = 5;
-        static int contslocfront = krestikloc + 15;
+        static int krestikloc = 79;
+        static int contslocfront = 11;
         static int contslocmiddle = contslocfront + 21;
         static int contslocback = contslocmiddle + 21;
         PictureBox CurrentContPlace = null;
@@ -114,7 +115,7 @@ namespace Nekl_proj
 
             TopBox = new PictureBox
             {
-                Location = new Point(5, 5),
+                Location = new Point(0, 0),
                 Size = new Size(Size.Width - SettingsSize.Width - 5, (int)(Size.Height/3.0) + 10),
                 BackColor = WaterColor,
                 BorderStyle = BorderStyle.FixedSingle
@@ -122,9 +123,17 @@ namespace Nekl_proj
 
             LeftBox = new PictureBox
             {
-                Location = new Point(5, TopBox.Location.Y + TopBox.Height + 5),
+                Location = new Point(0, TopBox.Location.Y + TopBox.Height),
                 Size = new Size(Size.Width - SettingsSize.Width - 5, Size.Height - TopBox.Height - 50),
                 BackColor = Color.White,
+                BorderStyle = BorderStyle.FixedSingle
+            };
+
+            SettingsBox = new PictureBox
+            {
+                Location = new Point(TopBox.Location.X + TopBox.Size.Width, 0),
+                Size = new Size(SettingsSize.Width, SettingsSize.Height),
+                BackColor = Color.Transparent,
                 BorderStyle = BorderStyle.FixedSingle
             };
 
@@ -154,6 +163,8 @@ namespace Nekl_proj
                 BackColor = WaterColor,
                 Image = Properties.Resources.ShipTop
             };
+
+            ShipTop.Paint += ShipTop_Paint;
 
             WeightText = new Label
             {
@@ -219,6 +230,7 @@ namespace Nekl_proj
                     ContainersWeb[i, j].MouseEnter += ContainersWeb_MouseEnter;
                     ContainersWeb[i, j].MouseLeave += ContainersWeb_MouseLeave;
                     ContainersWeb[i, j].MouseClick += ContainersWeb_MouseClick;
+                    ContainersWeb[i, j].Paint += Krestik_Paint;
                     allObj[sch] = ContainersWeb[i, j];
                     sch += 1;
                 }
@@ -226,6 +238,7 @@ namespace Nekl_proj
 
             CurrentContPlace = (PictureBox)allObj[krestikloc];
 
+            sch = contslocfront;
             //containersFrontForLeft
             int o = 0;
             Size consize = new Size((int)(LeftBox.Size.Width / 8.48), (int)(LeftBox.Size.Height / 13.9));
@@ -293,7 +306,6 @@ namespace Nekl_proj
                     sch += 1;
                 }
             }
-
 
             ContTop = new PictureBox
             {
@@ -399,6 +411,8 @@ namespace Nekl_proj
 
             Begin.Click += Begin_Click;
 
+            TopBox.Paint += TopBox_Paint;
+
 
 
 
@@ -413,36 +427,44 @@ namespace Nekl_proj
             ContTop.Paint += new System.Windows.Forms.PaintEventHandler(ContTop_Paint);
             WindDirectionBox.Paint += new System.Windows.Forms.PaintEventHandler(WindDirectionBox_Paint);
 
+            //settings part
+            allObj[1] = WeightText;
+            allObj[2] = WeightBar;
+            allObj[3] = AmplText;
+            allObj[4] = AmplBar;
+            allObj[5] = WindDirectionBoxText;
+            allObj[6] = WindDirectionBox;
+            allObj[7] = Begin;
+            allObj[8] = SettingsBox;
 
-            allObj[1] = LulkaTop;
-            allObj[2] = ContTop;
-            allObj[3] = ContLeftFront;
-            allObj[4] = ShipLeft;
-            //5-19 krestiki
-            //20-39 boxesfront left
-            allObj[40] = ContLeftMiddle;
-            //41-60 boxesmiddle left
-            allObj[61] = ContLeftBack;
-            //62-81 boxesback left
-            allObj[100] = LulkaLeft;
-            allObj[101] = ReikaLeft;
-            allObj[102] = ShipTop;
-            allObj[104] = WaterLeft;
-            allObj[105] = LeftBox;
-            allObj[106] = TopBox;
-            allObj[107] = WeightText;
-            allObj[108] = WeightBar;
-            allObj[109] = AmplText;
-            allObj[110] = AmplBar;
-            allObj[111] = WindDirectionBoxText;
-            allObj[112] = WindDirectionBox;
-            allObj[113] = Begin;
+            //Left part
+            allObj[9] = ContLeftFront;
+            allObj[10] = ShipLeft;
+            //11-30 boxesfront left
+            allObj[31] = ContLeftMiddle;
+            //32-51 boxesmiddle left
+            allObj[52] = ContLeftBack;
+            //53-72 boxesback left
+            allObj[73] = LulkaLeft;
+            allObj[74] = ReikaLeft;
+            allObj[75] = WaterLeft;
+            allObj[76] = LeftBox;
+
+            //Top part
+            allObj[77] = LulkaTop;
+            allObj[78] = ContTop;
+            //79-93 krestiki
+            allObj[94] = ShipTop;
+            allObj[95] = TopBox;
+
+            Controls.AddRange(allObj);
+
+
 
             // Начальная длина тросса
             rope_length = Math.Sqrt(Math.Pow(TrosTop.Item1.X - TrosTop.Item2.X, 2) + Math.Pow(TrosTop.Item1.Y - TrosTop.Item2.Y, 2) + Math.Pow(TrosLeft.Item1.Y - TrosLeft.Item2.Y, 2));
             begin_rope_length = rope_length;
 
-            Controls.AddRange(allObj);
 
             timer1.Start();
 
@@ -490,6 +512,7 @@ namespace Nekl_proj
         private void LeftBox_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             Graphics g = e.Graphics;
+
             g.DrawLine(trospen, TrosLeft.Item1.X, TrosLeft.Item1.Y, TrosLeft.Item2.X, TrosLeft.Item2.Y);
         }
 
@@ -510,13 +533,52 @@ namespace Nekl_proj
             g.DrawLine(trospen, begx + TrosLeft.Item1.X + addition, begy + TrosLeft.Item1.Y, begx + TrosLeft.Item2.X + addition, begy + TrosLeft.Item2.Y);
             
         }
-        
-        //top tros
-        private void ContTop_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+
+        private void TopBox_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
             g.DrawLine(trospen, TrosTop.Item1.X, TrosTop.Item1.Y, TrosTop.Item2.X, TrosTop.Item2.Y);
+        }
+
+        //top tros
+        private void ContTop_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        {
+
+            var currentCont = sender as PictureBox;
+            int begx = TopBox.Location.X - currentCont.Location.X;
+            int begy = TopBox.Location.Y - currentCont.Location.Y;
+
+            Graphics g = e.Graphics;
+
+            g.DrawLine(trospen, begx + TrosTop.Item1.X + 1, begy + TrosTop.Item1.Y, begx + TrosTop.Item2.X + 1, begy + TrosTop.Item2.Y);
+
+        }
+
+        private void ShipTop_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        {
+
+            var currentCont = sender as PictureBox;
+            int begx = TopBox.Location.X - currentCont.Location.X;
+            int begy = TopBox.Location.Y - currentCont.Location.Y;
+
+            Graphics g = e.Graphics;
+
+            g.DrawLine(trospen, begx + TrosTop.Item1.X +1, begy + TrosTop.Item1.Y + 1, begx + TrosTop.Item2.X + 1, begy + TrosTop.Item2.Y + 1);
+
+        }
+
+        private void Krestik_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        {
+
+            var currentCont = sender as PictureBox;
+            int begx = TopBox.Location.X - currentCont.Location.X;
+            int begy = TopBox.Location.Y - currentCont.Location.Y;
+
+            Graphics g = e.Graphics;
+
+            g.DrawLine(trospen, begx + TrosTop.Item1.X + 1, begy + TrosTop.Item1.Y + 1, begx + TrosTop.Item2.X + 1, begy + TrosTop.Item2.Y + 1);
+
         }
 
         private void Form1_Shown(object sender, EventArgs e)
@@ -561,6 +623,7 @@ namespace Nekl_proj
             ContainerLocation = new Physics.Point3D(ContTop.Location.X, ContTop.Location.Y, ContLeft.Location.Y);
             PcontHeight = ContLeft.Size.Height;
 
+            TopBox.Refresh();
             LeftBox.Refresh();
         }
 
@@ -653,6 +716,10 @@ namespace Nekl_proj
             ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, level] = true;
             Containers[PlaceForCont.X, PlaceForCont.Y, level] = new Container(new Physics.Point3D(ContainerLocation.x, ContainerLocation.y, ContainerLocation.z));
 
+            ContTop.Location = new Point(CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2 - ContTop.Size.Width / 2, CurrentContPlace.Location.Y + CurrentContPlace.Size.Height / 2 - ContTop.Size.Height / 2);
+            TrosTop = new Tuple<Point, Point>(new Point(LulkaTop.Location.X + LulkaTop.Size.Width / 2 - TopBox.Location.X, LulkaTop.Location.Y + LulkaTop.Size.Height / 2 - 1 - TopBox.Location.Y), new Point(ContTop.Location.X + ContTop.Size.Width / 2 - TopBox.Location.X, ContTop.Location.Y - TopBox.Location.Y + ContTop.Size.Height / 2));
+            ContTop.Refresh();
+            TopBox.Refresh();
             //LeftBox
             if (PlaceForCont.X > 0)
             {
@@ -768,8 +835,9 @@ namespace Nekl_proj
                 //TrosLeft = new Tuple<Point, Point>(TrosLeft2.Item1, new Point(TrosLeft2.Item1.X + Convert.ToInt32(point3dtemp.x), Convert.ToInt32(TrosLeft2.Item1.Y + point3dtemp.z)));
                 //ContLeft.Location = new Point(TrosLeft.Item2.X - ContLeft.Size.Width / 2, TrosLeft.Item2.Y + LeftBox.Location.Y);
 
+                //тестовая хрень ContTop.Location = new Point(ContTop.Location.X, ContTop.Location.Y-4);
 
-
+                TrosTop = new Tuple<Point, Point>(new Point(LulkaTop.Location.X + LulkaTop.Size.Width / 2 - TopBox.Location.X, LulkaTop.Location.Y + LulkaTop.Size.Height/2 - 1 - TopBox.Location.Y), new Point(ContTop.Location.X + ContTop.Size.Width / 2 - TopBox.Location.X, ContTop.Location.Y - TopBox.Location.Y+ ContTop.Size.Height / 2));
 
                 if ((ContLeft.Location.Y + ContLeft.Size.Height) >= ShipLeft.Location.Y - level * ContLeft.Size.Height)
                 {
@@ -784,13 +852,15 @@ namespace Nekl_proj
                 rope_length += animationspeed;
             }
 
+            //фезека
             Tuple<Point, Point> TrosLeft2 = TrosLeft;
             Physics.Point3D point3dtemp = Physics.Container_Movement(wind, weight, rope_length);
             TrosLeft = new Tuple<Point, Point>(TrosLeft2.Item1, new Point(TrosLeft2.Item1.X + Convert.ToInt32(point3dtemp.x), Convert.ToInt32(TrosLeft2.Item1.Y + point3dtemp.z)));
             ContLeft.Location = new Point(TrosLeft.Item2.X - ContLeft.Size.Width / 2, TrosLeft.Item2.Y + LeftBox.Location.Y);
 
-
-
+            ShipTop.Refresh();
+            ContTop.Refresh();
+            TopBox.Refresh();
             LeftBox.Refresh();
 
             if (wind_changed)
