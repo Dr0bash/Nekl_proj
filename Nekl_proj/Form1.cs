@@ -26,6 +26,7 @@ namespace Nekl_proj
         static PictureBox ContTop = null;
         static PictureBox ContLeft = null;
         static PictureBox ContLeftBack = null;
+        static PictureBox ContLeftMiddle = null;
         static PictureBox ContLeftFront = null;
         static TextBox tbox = null;
         static Size SettingsSize = new Size();
@@ -63,16 +64,22 @@ namespace Nekl_proj
 
         //graph variables for right introducing
         static int krestikloc = 5;
-        int contsloc = krestikloc + 15;
+        static int contslocfront = krestikloc + 15;
+        static int contslocmiddle = contslocfront + 21;
+        static int contslocback = contslocmiddle + 21;
+        PictureBox CurrentContPlace = null;
         static int[] oldlocs = new int[20];
         int level = 0;
         Random r = new Random();
-        Pen trosspen = new Pen(Brushes.Black, 2);
+        Pen trospen = new Pen(Brushes.Black, 2);
 
 
         //animation variable
         bool animation = false;
         int animationspeed = 4; // тестовая штука для проверки(контейнер просто идет вниз)
+
+        //отклонение контейнера на leftbox тест на перекрытие
+        static int testbias = 50;
 
         public Form1()
         {
@@ -209,10 +216,57 @@ namespace Nekl_proj
                 }
             }
 
+            CurrentContPlace = (PictureBox)allObj[krestikloc];
 
-            //containersForLeft
+            //containersFrontForLeft
             int o = 0;
             Size consize = new Size((int)(LeftBox.Size.Width / 8.48), (int)(LeftBox.Size.Height / 13.9));
+            for (int i = 0; i < 4; ++i)
+            {
+                for (int j = 0; j < 5; ++j)
+                {
+
+                    allObj[sch] = new PictureBox
+                    {
+                        Location = new Point(-500, 0),
+                        Size = consize,
+                        BorderStyle = BorderStyle.None,
+                        BackColor = Color.White,
+                        Tag = i * 10 + j
+                    };
+                    oldlocs[o] = ShipLeft.Location.Y - i * consize.Height;
+                    ((PictureBox)allObj[sch]).Paint += new PaintEventHandler(ContsLeft_Paint);
+                    ((PictureBox)allObj[sch]).Dock = DockStyle.None;
+                    ++o;
+                    sch += 1;
+                }
+            }
+
+            sch += 1; //между группами контейнеров(front and middle) нужно ставить новый контейнер
+
+            //containersMiddleForLeft
+            for (int i = 0; i < 4; ++i)
+            {
+                for (int j = 0; j < 5; ++j)
+                {
+
+                    allObj[sch] = new PictureBox
+                    {
+                        Location = new Point(-500, 0),
+                        Size = consize,
+                        BorderStyle = BorderStyle.None,
+                        BackColor = Color.White,
+                        Tag = i * 10 + j
+                    };
+                    ((PictureBox)allObj[sch]).Paint += new PaintEventHandler(ContsLeft_Paint);
+                    ((PictureBox)allObj[sch]).Dock = DockStyle.None;
+                    sch += 1;
+                }
+            }
+
+            sch += 1; //между группами контейнеров(middle and back) нужно ставить новый контейнер
+
+            //containersBackForLeft
             for (int i = 0; i < 4; ++i)
             {
                 for (int j = 0; j < 5; ++j)
@@ -226,10 +280,8 @@ namespace Nekl_proj
                         BackColor = Color.White,
                         Tag = i * 10 + j
                     };
-                    oldlocs[o] = ShipLeft.Location.Y - i * consize.Height;
                     ((PictureBox)allObj[sch]).Paint += new PaintEventHandler(ContsLeft_Paint);
                     ((PictureBox)allObj[sch]).Dock = DockStyle.None;
-                    ++o;
                     sch += 1;
                 }
             }
@@ -254,6 +306,16 @@ namespace Nekl_proj
             };
 
             ContLeftFront.Location = new Point(ContainersWeb[0, 0].Location.X + ContainersWeb[0, 0].Size.Width / 2 - ContLeftFront.Size.Width / 2, ContLeftFront.Location.Y);
+
+            ContLeftMiddle = new PictureBox
+            {
+                Location = new Point(0, 0),
+                Size = new Size((int)(LeftBox.Size.Width / 8.48), (int)(LeftBox.Size.Height / 13.9)),
+                BorderStyle = BorderStyle.FixedSingle,
+                BackColor = Color.Yellow
+            };
+
+            ContLeftMiddle.Location = new Point(-500, ContLeftFront.Location.Y);
 
             ContLeftBack = new PictureBox
             {
@@ -326,9 +388,12 @@ namespace Nekl_proj
             allObj[2] = ContTop;
             allObj[3] = ContLeftFront;
             allObj[4] = ShipLeft;
-            //10-34 krestiki
-            //35-54 boxes left
-            allObj[99] = ContLeftBack;
+            //5-19 krestiki
+            //20-39 boxesfront left
+            allObj[40] = ContLeftMiddle;
+            //41-60 boxesmiddle left
+            allObj[61] = ContLeftBack;
+            //62-81 boxesback left
             allObj[100] = LulkaLeft;
             allObj[101] = ReikaLeft;
             allObj[102] = ShipTop;
@@ -352,13 +417,14 @@ namespace Nekl_proj
 
         }
 
-        //Paint event
+        //Paint event for Tros
         private void LeftBox_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.DrawLine(trosspen, TrosLeft.Item1.X, TrosLeft.Item1.Y, TrosLeft.Item2.X, TrosLeft.Item2.Y);
+            g.DrawLine(trospen, TrosLeft.Item1.X, TrosLeft.Item1.Y, TrosLeft.Item2.X, TrosLeft.Item2.Y);
         }
 
+        //for tros
         private void ContsLeft_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
 
@@ -372,16 +438,16 @@ namespace Nekl_proj
                 addition = 1;
 
 
-            g.DrawLine(trosspen, begx + TrosLeft.Item1.X + addition, begy + TrosLeft.Item1.Y, begx + TrosLeft.Item2.X + addition, begy + TrosLeft.Item2.Y);
+            g.DrawLine(trospen, begx + TrosLeft.Item1.X + addition, begy + TrosLeft.Item1.Y, begx + TrosLeft.Item2.X + addition, begy + TrosLeft.Item2.Y);
             
         }
         
-
+        //top tros
         private void ContTop_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
-            g.DrawLine(trosspen, TrosTop.Item1.X, TrosTop.Item1.Y, TrosTop.Item2.X, TrosTop.Item2.Y);
+            g.DrawLine(trospen, TrosTop.Item1.X, TrosTop.Item1.Y, TrosTop.Item2.X, TrosTop.Item2.Y);
         }
 
         private void Form1_Shown(object sender, EventArgs e)
@@ -413,6 +479,7 @@ namespace Nekl_proj
         private void ContainersWeb_MouseClick(object sender, EventArgs e)
         {
             PictureBox ContPlace = sender as PictureBox;
+            CurrentContPlace = ContPlace;
             LulkaLeft.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - LulkaLeft.Size.Width / 2, LulkaLeft.Location.Y);
             LulkaTop.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - LulkaTop.Size.Width / 2, ContPlace.Location.Y + ContPlace.Size.Height / 2 - LulkaTop.Size.Height / 2);
             PlaceForCont = new Point((int)ContPlace.Tag / 10, (int)ContPlace.Tag % 10);
@@ -428,14 +495,43 @@ namespace Nekl_proj
             LeftBox.Refresh();
         }
 
+        
+
+
         private void Begin_Click(object sender, EventArgs e)
         {
             level = 0;
+            int y = LeftBox.Location.Y + (int)(LeftBox.Size.Height / 4.3);
             for (int i = krestikloc; i < krestikloc+15; ++i)
             {
                 ((PictureBox)Controls[i]).Image = null;
                 Controls[i].Enabled = false;
             }
+            if (PlaceForCont.X == 0)
+            {
+                ContLeftBack.BackColor = ContLeft.BackColor;
+                ContLeft = ContLeftBack;
+                ContLeft.Location = new Point(CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
+                ContLeftMiddle.Location = new Point(-500, y);
+                ContLeftFront.Location = new Point(-500, y);
+            }
+            else if (PlaceForCont.X == 1)
+            {
+                ContLeftMiddle.BackColor = ContLeft.BackColor;
+                ContLeft = ContLeftMiddle;
+                ContLeft.Location = new Point(CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
+                ContLeftBack.Location = new Point(-500, y);
+                ContLeftFront.Location = new Point(-500, y);
+            }
+            else
+            {
+                ContLeftFront.BackColor = ContLeft.BackColor;
+                ContLeft = ContLeftFront;
+                ContLeft.Location = new Point(CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
+                ContLeftBack.Location = new Point(-500, y);
+                ContLeftMiddle.Location = new Point(-500, y);
+            }
+
             if (ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, 0])
             {
                 if (ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, 1])
@@ -459,43 +555,71 @@ namespace Nekl_proj
                 for (int j = 0; j < 5; ++j)
                 {
                     if (ContainerPlaced[i, j, 0])
-                        TurnOff(i, j, 0);
+                        TurnOffTros(i, j, 0);
                 }
 
             animation = true;
             Begin.Enabled = false;
         }
 
-        private void TurnOff(int i, int j, int lvl)
+        private void TurnOffTros(int i, int j, int lvl)
         {
-            ((PictureBox)Controls[contsloc + lvl*5 + j]).Paint -= new PaintEventHandler(ContsLeft_Paint);
+            ((PictureBox)Controls[contslocback + lvl*5 + j]).Paint -= new PaintEventHandler(ContsLeft_Paint);
+            ((PictureBox)Controls[contslocmiddle + lvl * 5 + j]).Paint -= new PaintEventHandler(ContsLeft_Paint);
+            ((PictureBox)Controls[contslocfront + lvl * 5 + j]).Paint -= new PaintEventHandler(ContsLeft_Paint);
             if (lvl < 3 && ContainerPlaced[i, j, lvl + 1])
-            TurnOff(i, j, lvl + 1);
+                TurnOffTros(i, j, lvl + 1);
         }
 
         private void After_animation()
         {
+            //logics
             ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, level] = true;
             Containers[PlaceForCont.X, PlaceForCont.Y, level] = new Container(new Physics.Point3D(ContainerLocation.x, ContainerLocation.y, ContainerLocation.z));
 
-            bool f = true;
-            for (int i = PlaceForCont.X + 1; i < 3; ++i)
+            //LeftBox
+            //bool f = true;
+            //for (int i = PlaceForCont.X + 1; i < 3; ++i)
+            //{
+            //    if (ContainerPlaced[i, PlaceForCont.Y, level])
+            //    {
+            //        f = false;
+            //        break;
+            //    }
+            //}
+            //if (f)
+            //{
+            //    ((PictureBox)Controls[contslocback + level * 5 + PlaceForCont.Y]).BackColor = ContLeft.BackColor;
+            //    ((PictureBox)Controls[contslocback + level * 5 + PlaceForCont.Y]).BorderStyle = BorderStyle.FixedSingle;
+            //}
+            if (PlaceForCont.X > 0)
             {
-                if (ContainerPlaced[i, PlaceForCont.Y, level])
+                if (PlaceForCont.X == 1)
                 {
-                    f = false;
-                    break;
+                    Point loc = ((PictureBox)Controls[contslocback + 5 * level + PlaceForCont.Y]).Location;
+                    ((PictureBox)Controls[contslocmiddle + 5 * level + PlaceForCont.Y]).Location = new Point(loc.X, loc.Y);
+                    ((PictureBox)Controls[contslocmiddle + 5 * level + PlaceForCont.Y]).BackColor = ContLeft.BackColor;
+                    ((PictureBox)Controls[contslocmiddle + 5 * level + PlaceForCont.Y]).BorderStyle = BorderStyle.FixedSingle;
+                }
+                else
+                {
+                    Point loc = ((PictureBox)Controls[contslocback + 5 * level + PlaceForCont.Y]).Location;
+                    ((PictureBox)Controls[contslocfront + 5 * level + PlaceForCont.Y]).Location = new Point(loc.X, loc.Y);
+                    ((PictureBox)Controls[contslocfront + 5 * level + PlaceForCont.Y]).BackColor = ContLeft.BackColor;
+                    ((PictureBox)Controls[contslocfront + 5 * level + PlaceForCont.Y]).BorderStyle = BorderStyle.FixedSingle;
                 }
             }
-            if (f)
+            else
             {
-                ((PictureBox)Controls[contsloc + level * 5 + PlaceForCont.Y]).BackColor = ContLeft.BackColor;
-                ((PictureBox)Controls[contsloc + level * 5 + PlaceForCont.Y]).BorderStyle = BorderStyle.FixedSingle;
+                ((PictureBox)Controls[contslocback + 5 * level + PlaceForCont.Y]).BackColor = ContLeft.BackColor;
+                ((PictureBox)Controls[contslocback + 5 * level + PlaceForCont.Y]).BorderStyle = BorderStyle.FixedSingle;
             }
 
             ContainersWeb[PlaceForCont.X, PlaceForCont.Y].BackColor = ContLeft.BackColor;
             Color c = Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255));
             ContLeft.BackColor = c;
+
+            //TopBox
             ContTop.BackColor = c;
             for (int i = krestikloc; i < krestikloc + 15; ++i)
             {
@@ -507,7 +631,20 @@ namespace Nekl_proj
                 }
             }
 
-            for (int i = contsloc; i < contsloc + 20; ++i)
+            //TurnOnAllTros
+            for (int i = contslocback; i < contslocback + 20; ++i)
+            {
+                ((PictureBox)Controls[i]).Paint -= new PaintEventHandler(ContsLeft_Paint);
+                ((PictureBox)Controls[i]).Paint += new PaintEventHandler(ContsLeft_Paint);
+            }
+
+            for (int i = contslocmiddle; i < contslocmiddle + 20; ++i)
+            {
+                ((PictureBox)Controls[i]).Paint -= new PaintEventHandler(ContsLeft_Paint);
+                ((PictureBox)Controls[i]).Paint += new PaintEventHandler(ContsLeft_Paint);
+            }
+
+            for (int i = contslocfront; i < contslocfront + 20; ++i)
             {
                 ((PictureBox)Controls[i]).Paint -= new PaintEventHandler(ContsLeft_Paint);
                 ((PictureBox)Controls[i]).Paint += new PaintEventHandler(ContsLeft_Paint);
@@ -534,10 +671,21 @@ namespace Nekl_proj
 
             Size consize = ContLeft.Size;
             
-            
-            for (int i = contsloc; i < contsloc + 20; ++i)
+            for (int i = contslocback; i < contslocback + 20; ++i)
             {
-                ((PictureBox)Controls[i]).Location = new Point(((PictureBox)Controls[i]).Location.X, oldlocs[i - contsloc] - (int)(Ampl*Math.Sin(time)) - ContLeft.Size.Height + 1);
+                ((PictureBox)Controls[i]).Location = new Point(((PictureBox)Controls[i]).Location.X, oldlocs[i - contslocback] - (int)(Ampl*Math.Sin(time)) - ContLeft.Size.Height + 1);
+                ((PictureBox)Controls[i]).Refresh();
+            }
+
+            for (int i = contslocmiddle; i < contslocmiddle + 20; ++i)
+            {
+                ((PictureBox)Controls[i]).Location = new Point(((PictureBox)Controls[i]).Location.X, oldlocs[i - contslocmiddle] - (int)(Ampl * Math.Sin(time)) - ContLeft.Size.Height + 1);
+                ((PictureBox)Controls[i]).Refresh();
+            }
+
+            for (int i = contslocfront; i < contslocfront + 20; ++i)
+            {
+                ((PictureBox)Controls[i]).Location = new Point(((PictureBox)Controls[i]).Location.X, oldlocs[i - contslocfront] - (int)(Ampl * Math.Sin(time)) - ContLeft.Size.Height + 1);
                 ((PictureBox)Controls[i]).Refresh();
             }
 
@@ -546,7 +694,7 @@ namespace Nekl_proj
             if (animation)
             {
                 var ContPlace = ContainersWeb[PlaceForCont.X, PlaceForCont.Y];
-                ContLeft.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y + animationspeed);
+                ContLeft.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContLeft.Size.Width / 2 + testbias, ContLeft.Location.Y + animationspeed);
                 TrosLeft = new Tuple<Point, Point>(new Point(LulkaLeft.Location.X + LulkaLeft.Size.Width / 2 - LeftBox.Location.X, LulkaLeft.Location.Y + LulkaLeft.Size.Height - 1 - LeftBox.Location.Y), new Point(ContLeft.Location.X + ContLeft.Size.Width / 2 - LeftBox.Location.X, ContLeft.Location.Y - LeftBox.Location.Y));
                 if ((ContLeft.Location.Y + ContLeft.Size.Height) >= ShipLeft.Location.Y - level * ContLeft.Size.Height)
                 {
