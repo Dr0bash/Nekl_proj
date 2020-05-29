@@ -25,6 +25,8 @@ namespace Nekl_proj
         static PictureBox LulkaTop = null;
         static PictureBox ContTop = null;
         static PictureBox ContLeft = null;
+        static PictureBox ContLeftBack = null;
+        static PictureBox ContLeftFront = null;
         static TextBox tbox = null;
         static Size SettingsSize = new Size();
         static Color WaterColor = Color.FromArgb(0, 162, 211);
@@ -65,10 +67,12 @@ namespace Nekl_proj
         static int[] oldlocs = new int[20];
         int level = 0;
         Random r = new Random();
+        Pen trosspen = new Pen(Brushes.Black, 2);
+
 
         //animation variable
         bool animation = false;
-        int animationspeed = 4;
+        int animationspeed = 4; // тестовая штука для проверки(контейнер просто идет вниз)
 
         public Form1()
         {
@@ -241,7 +245,7 @@ namespace Nekl_proj
 
             ContTop.Location = new Point(ContainersWeb[0, 0].Location.X + ContainersWeb[0, 0].Size.Width / 2 - ContTop.Size.Width / 2, ContainersWeb[0, 0].Location.Y + ContainersWeb[0, 0].Size.Height / 2 - ContTop.Size.Height / 2);
 
-            ContLeft = new PictureBox
+            ContLeftFront = new PictureBox
             {
                 Location = new Point(LeftBox.Location.X, LeftBox.Location.Y + (int)(LeftBox.Size.Height/4.3)),
                 Size = new Size((int)(LeftBox.Size.Width / 8.48), (int)(LeftBox.Size.Height / 13.9)),
@@ -249,7 +253,19 @@ namespace Nekl_proj
                 BackColor = Color.Yellow
             };
 
-            ContLeft.Location = new Point(ContainersWeb[0, 0].Location.X + ContainersWeb[0, 0].Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
+            ContLeftFront.Location = new Point(ContainersWeb[0, 0].Location.X + ContainersWeb[0, 0].Size.Width / 2 - ContLeftFront.Size.Width / 2, ContLeftFront.Location.Y);
+
+            ContLeftBack = new PictureBox
+            {
+                Location = new Point(0, 0),
+                Size = new Size((int)(LeftBox.Size.Width / 8.48), (int)(LeftBox.Size.Height / 13.9)),
+                BorderStyle = BorderStyle.FixedSingle,
+                BackColor = Color.Yellow
+            };
+
+            ContLeftBack.Location = new Point(-500, ContLeftFront.Location.Y);
+
+            ContLeft = ContLeftFront;
 
             ReikaLeft = new PictureBox
             {
@@ -308,10 +324,11 @@ namespace Nekl_proj
 
             allObj[1] = LulkaTop;
             allObj[2] = ContTop;
-            allObj[3] = ContLeft;
+            allObj[3] = ContLeftFront;
             allObj[4] = ShipLeft;
             //10-34 krestiki
             //35-54 boxes left
+            allObj[99] = ContLeftBack;
             allObj[100] = LulkaLeft;
             allObj[101] = ReikaLeft;
             allObj[102] = ShipTop;
@@ -339,8 +356,7 @@ namespace Nekl_proj
         private void LeftBox_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-
-            g.DrawLine(System.Drawing.Pens.Black, TrosLeft.Item1.X, TrosLeft.Item1.Y, TrosLeft.Item2.X, TrosLeft.Item2.Y);
+            g.DrawLine(trosspen, TrosLeft.Item1.X, TrosLeft.Item1.Y, TrosLeft.Item2.X, TrosLeft.Item2.Y);
         }
 
         private void ContsLeft_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
@@ -356,7 +372,7 @@ namespace Nekl_proj
                 addition = 1;
 
 
-            g.DrawLine(System.Drawing.Pens.Black, begx + TrosLeft.Item1.X + addition, begy + TrosLeft.Item1.Y, begx + TrosLeft.Item2.X + addition, begy + TrosLeft.Item2.Y);
+            g.DrawLine(trosspen, begx + TrosLeft.Item1.X + addition, begy + TrosLeft.Item1.Y, begx + TrosLeft.Item2.X + addition, begy + TrosLeft.Item2.Y);
             
         }
         
@@ -365,7 +381,7 @@ namespace Nekl_proj
         {
             Graphics g = e.Graphics;
 
-            g.DrawLine(System.Drawing.Pens.Black, TrosTop.Item1.X, TrosTop.Item1.Y, TrosTop.Item2.X, TrosTop.Item2.Y);
+            g.DrawLine(trosspen, TrosTop.Item1.X, TrosTop.Item1.Y, TrosTop.Item2.X, TrosTop.Item2.Y);
         }
 
         private void Form1_Shown(object sender, EventArgs e)
