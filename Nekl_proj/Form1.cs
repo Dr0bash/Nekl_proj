@@ -62,7 +62,7 @@ namespace Nekl_proj
         static double max_wind_power = 10;
         static double wind_change_speed_fraction = 0.01;
 
-        static int weight = 4;
+        static int weight = 20;
 
         static bool[,,] ContainerPlaced = new bool[3, 5, 4];
         static int[,] contGridTop = new int[3, 5];
@@ -188,8 +188,8 @@ namespace Nekl_proj
                 Location = new Point(TopBox.Width + 5, WeightText.Location.Y + WeightText.Size.Height + 5),
                 Size = new Size(SettingsSize.Width - 20, 20),
                 TickFrequency = 1,
-                Minimum = 1,
-                Maximum = 10,
+                Minimum = 15,
+                Maximum = 30,
                 Value = weight,
                 SmallChange = 1,
                 LargeChange = 1
@@ -905,8 +905,9 @@ namespace Nekl_proj
             //WeightText.Text = cur_wind.X + " " + cur_wind.Y;
             //WeightText.Text = PlaceForCont.X + " " + PlaceForCont.Y;
             //WeightText.Text = "" + contGridTop[PlaceForCont.X,PlaceForCont.Y];
-            final_wind = cur_wind;
-            //final_wind = Physics.WindChangeByContainers(contGridTop,cur_wind,PlaceForCont);
+            //WeightText.Text = "" + ContLeft.Location.Y + " > " + (Form1.ShipLeft.Location.Y - contGridTop[PlaceForCont.X, PlaceForCont.Y] * PcontHeight);
+            //final_wind = cur_wind;
+            final_wind = Physics.WindChangeByContainers(contGridTop,cur_wind,PlaceForCont);
 
             ShipTop.Refresh();
             ContTop.Refresh();

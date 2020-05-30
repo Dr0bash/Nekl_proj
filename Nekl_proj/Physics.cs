@@ -211,13 +211,13 @@ namespace Nekl_proj
                         }
                     break;
                 case 6:
-                    if (cX < xmax)
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
+                    if (cY < ymax)
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
                         {
-                            Random r = new Random();
-                            int asd = r.Next(0, 255);
-                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
-                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
+                            //Random r = new Random();
+                            //int asd = r.Next(0, 255);
+                            //Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
                         }
                     break;
                 case 7:
