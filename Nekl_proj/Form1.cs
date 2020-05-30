@@ -905,8 +905,8 @@ namespace Nekl_proj
             //WeightText.Text = cur_wind.X + " " + cur_wind.Y;
             //WeightText.Text = PlaceForCont.X + " " + PlaceForCont.Y;
             //WeightText.Text = "" + contGridTop[PlaceForCont.X,PlaceForCont.Y];
-            final_wind = cur_wind;
-            //final_wind = Physics.WindChangeByContainers(contGridTop,cur_wind,PlaceForCont);
+            //final_wind = cur_wind;
+            final_wind = Physics.WindChangeByContainers(contGridTop, cur_wind, PlaceForCont);
 
             ShipTop.Refresh();
             ContTop.Refresh();

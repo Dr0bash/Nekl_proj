@@ -91,127 +91,241 @@ namespace Nekl_proj
             switch (dir)
             {
                 case 0:
-                    if (cY < ymax)
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX,cY+1])
+                    if (cX < xmax)
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX+1,cY])
                         {
-                            wind.Y = (float)(wind.Y * Math.Min(1,Math.Max(0, ((Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1] - contLocZ) /contHeight))));
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1,Math.Max(0, ((Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY] - contLocZ) /contHeight))));
                         }
-                    break;
+                    return wind;
                 case 1:
-                    if (cY < ymax && cX > 0)
+                    if (cX < xmax && cY > 0)
                     {
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY + 1])
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY - 1])
                         {
-                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY + 1] - contLocZ) / contHeight))));
-                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY + 1] - contLocZ) / contHeight))));
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY - 1] - contLocZ) / contHeight))));
+                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY - 1] - contLocZ) / contHeight))));
                         }
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1] && contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY] && contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
                         {
-                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY + 1], topContsHeights[cX - 1, cY])) / contHeight))));
-                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY + 1], topContsHeights[cX - 1, cY])) / contHeight))));
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX + 1, cY], topContsHeights[cX, cY - 1])) / contHeight))));
+                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX + 1, cY], topContsHeights[cX, cY - 1])) / contHeight))));
                         }
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
                         {
-                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
                         }
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
                         {
-                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
                         }
                     }
                     if (cY < ymax && cX == 0)
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
                         {
-                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
                         }
                     if (cX > 0 && cY == ymax)
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
                         {
-                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
                         }
-                    break;
+                    return wind;
                 case 2:
                     if (cX > 0)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
                         {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
                         }
-                    break;
+                    return wind;
                 case 3:
                     if (cY > 0 && cX > 0)
                     {
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY - 1])
                         {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY - 1]) / contHeight))));
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY - 1]) / contHeight))));
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1] && contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
                         {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY - 1], topContsHeights[cX - 1, cY])) / contHeight))));
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY - 1], topContsHeights[cX - 1, cY])) / contHeight))));
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
                         {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
                         {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
                         }
                     }
                     if (cY > 0 && cX == 0)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
                         {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
                         }
                     if (cX > 0 && cY == 0)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
                         {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
                         }
-                    break;
+                    return wind;
                 case 4:
-                    if (cY > 0)
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
+                    if (cX > 0)
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
                         {
-                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
                         }
-                    break;
+                    return wind;
                 case 5:
-                    if (cY > 0 && cX < xmax)
+                    if (cX > 0 && cY < ymax)
                     {
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY - 1])
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY + 1])
                         {
-                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY - 1]) / contHeight))));
-                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY - 1]) / contHeight))));
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY + 1]) / contHeight))));
+                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY + 1]) / contHeight))));
                         }
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1] && contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY] && contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
                         {
-                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY - 1], topContsHeights[cX + 1, cY])) / contHeight))));
-                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY - 1], topContsHeights[cX + 1, cY])) / contHeight))));
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX - 1, cY], topContsHeights[cX, cY + 1])) / contHeight))));
+                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX - 1, cY], topContsHeights[cX, cY + 1])) / contHeight))));
                         }
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
                         {
-                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
                         }
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
                         {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
+                        }
+                    }
+                    if (cX > 0 && cY == ymax)
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
+                        {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
+                        }
+                    if (cY < xmax && cX == 0)
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
+                        {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
+                        }
+                    return wind;
+                case 6:
+                    if (cY < ymax)
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
+                        {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
+                        }
+                    return wind;
+                case 7:
+                    if (cY < ymax && cX < xmax)
+                    {
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY + 1])
+                        {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY + 1]) / contHeight))));
+                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY + 1]) / contHeight))));
+                        }
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1] && contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
+                        {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY + 1], topContsHeights[cX + 1, cY])) / contHeight))));
+                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY + 1], topContsHeights[cX + 1, cY])) / contHeight))));
+                        }
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
+                        {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
+                        }
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
+                        {
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
                         }
                     }
-                    if (cY > 0 && cX == xmax)
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
+                    if (cY < ymax && cX == xmax)
+                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
                         {
-                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
+                            Random r = new Random();
+                            int asd = r.Next(0, 255);
+                            Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
+                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
                         }
-                    if (cX < xmax && cY == 0)
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
-                        {
-                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
-                        }
-                    break;
-                case 6:
-                    if (cX < xmax)
+                    if (cX < xmax && cY == ymax)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
                         {
                             Random r = new Random();
@@ -219,45 +333,10 @@ namespace Nekl_proj
                             Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
                         }
-                    break;
-                case 7:
-                    if (cY < ymax && cX < xmax)
-                    {
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY + 1])
-                        {
-                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY + 1]) / contHeight))));
-                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY + 1]) / contHeight))));
-                        }
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1] && contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
-                        {
-                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY + 1], topContsHeights[cX + 1, cY])) / contHeight))));
-                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY + 1], topContsHeights[cX + 1, cY])) / contHeight))));
-                        }
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
-                        {
-                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
-                        }
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
-                        {
-                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
-                        }
-                    }
-                    if (cY < ymax && cX == xmax)
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
-                        {
-                            wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
-                        }
-                    if (cX < xmax && cY == ymax)
-                        if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
-                        {
-                            wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
-                        }
-                    break;
+                    return wind;
                 default:
                     throw new Exception("what");
             }
-            
-            return wind;
         }
     }
 }
