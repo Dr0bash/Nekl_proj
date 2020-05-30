@@ -909,6 +909,7 @@ namespace Nekl_proj
             //final_wind = cur_wind;
             final_wind = Physics.WindChangeByContainers(contGridTop,cur_wind,PlaceForCont);
 
+
             ShipTop.Refresh();
             ContTop.Refresh();
             TopBox.Refresh();
