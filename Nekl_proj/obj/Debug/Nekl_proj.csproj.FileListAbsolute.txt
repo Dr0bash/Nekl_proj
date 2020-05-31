@@ -28,3 +28,13 @@ C:\Users\shiba\Desktop\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.csproj.GenerateRe
 C:\Users\shiba\Desktop\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.csproj.CoreCompileInputs.cache
 C:\Users\shiba\Desktop\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.exe
 C:\Users\shiba\Desktop\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.pdb
+C:\Users\79094\RiderProjects\Nekl_proj\Nekl_proj\bin\Debug\Nekl_proj.exe.config
+C:\Users\79094\RiderProjects\Nekl_proj\Nekl_proj\bin\Debug\Nekl_proj.exe
+C:\Users\79094\RiderProjects\Nekl_proj\Nekl_proj\bin\Debug\Nekl_proj.pdb
+C:\Users\79094\RiderProjects\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.csprojAssemblyReference.cache
+C:\Users\79094\RiderProjects\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.Form1.resources
+C:\Users\79094\RiderProjects\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.Properties.Resources.resources
+C:\Users\79094\RiderProjects\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.csproj.GenerateResource.cache
+C:\Users\79094\RiderProjects\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.csproj.CoreCompileInputs.cache
+C:\Users\79094\RiderProjects\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.exe
+C:\Users\79094\RiderProjects\Nekl_proj\Nekl_proj\obj\Debug\Nekl_proj.pdb
