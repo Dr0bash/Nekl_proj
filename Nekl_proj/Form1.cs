@@ -40,6 +40,7 @@ namespace Nekl_proj
         static Label WeightText = null;
         static TrackBar AmplBar = null;
         static Label AmplText = null;
+        static Label WaveFunctionText = null;
         static RadioButton w1 = null;
         static RadioButton w2 = null;
         static RadioButton w3 = null;
@@ -80,8 +81,8 @@ namespace Nekl_proj
         static double eps = 0.1;
 
         //graph variables for right introducing
-        static int krestikloc = 83;
-        static int contslocfront = 15;
+        static int krestikloc = 84;
+        static int contslocfront = 16;
         static int contslocmiddle = contslocfront + 21;
         static int contslocback = contslocmiddle + 21;
         PictureBox CurrentContPlace = null;
@@ -96,6 +97,9 @@ namespace Nekl_proj
 
         //animation variable
         bool animation = false;
+
+        //тест
+        int mistake = 0;
 
 
         //логика
@@ -403,14 +407,17 @@ namespace Nekl_proj
 
             LulkaTop.Location = new Point(ContainersWeb[0, 0].Location.X + ContainersWeb[0, 0].Size.Width / 2 - LulkaTop.Size.Width / 2, ContainersWeb[0, 0].Location.Y + ContainersWeb[0, 0].Size.Height / 2 - LulkaTop.Size.Height / 2);
 
-            //WaveFun1 - sin(x)
-            // WaveFun2 - sin(2*x)*sin(0.5*x)^2
-            // WaveFun3 - (sin(x)+0.4sin(2x)^2)/2
-            // WaveFun4 - 1-|sin(x)|
+            WaveFunctionText = new Label
+            {
+                Location = new Point(TopBox.Width + 15, AmplBar.Location.Y + AmplBar.Size.Height + 10),
+                Text = "Функция волны",
+                Font = new Font("Arial", SettingsSize.Width / 20, FontStyle.Regular),
+                AutoSize = true
+            };
 
             w1 = new RadioButton
             {
-                Location = new Point(TopBox.Width + 15, AmplBar.Location.Y + AmplBar.Size.Height + 10),
+                Location = new Point(TopBox.Width + 15, WaveFunctionText.Location.Y + WaveFunctionText.Size.Height + 10),
                 Text = "Sin(x)",
                 AutoSize = true,
                 Font = new Font("Arial", SettingsSize.Width / 20, FontStyle.Regular),
@@ -501,32 +508,33 @@ namespace Nekl_proj
             allObj[4] = AmplBar;
             allObj[5] = WindDirectionBoxText;
             allObj[6] = WindDirectionBox;
-            allObj[7] = Begin;
+            allObj[7] = WaveFunctionText;
             allObj[8] = w1;
             allObj[9] = w2;
             allObj[10] = w3;
             allObj[11] = w4;
-            allObj[12] = SettingsBox;
+            allObj[12] = Begin;
+            allObj[13] = SettingsBox;
 
             //Left part
-            allObj[13] = ContLeftFront;
-            allObj[14] = ShipLeft;
-            //15-34 boxesfront left
-            allObj[35] = ContLeftMiddle;
-            //36-55 boxesmiddle left
-            allObj[56] = ContLeftBack;
-            //57-76 boxesback left
-            allObj[77] = LulkaLeft;
-            allObj[78] = ReikaLeft;
-            allObj[79] = WaterLeft;
-            allObj[80] = LeftBox;
+            allObj[14] = ContLeftFront;
+            allObj[15] = ShipLeft;
+            //16-35 boxesfront left
+            allObj[36] = ContLeftMiddle;
+            //37-56 boxesmiddle left
+            allObj[57] = ContLeftBack;
+            //58-77 boxesback left
+            allObj[78] = LulkaLeft;
+            allObj[79] = ReikaLeft;
+            allObj[80] = WaterLeft;
+            allObj[81] = LeftBox;
 
             //Top part
-            allObj[81] = LulkaTop;
-            allObj[82] = ContTop;
-            //83-97 krestiki
-            allObj[98] = ShipTop;
-            allObj[99] = TopBox;
+            allObj[82] = LulkaTop;
+            allObj[83] = ContTop;
+            //84-98 krestiki
+            allObj[99] = ShipTop;
+            allObj[100] = TopBox;
 
             Controls.AddRange(allObj);
 
@@ -887,8 +895,8 @@ namespace Nekl_proj
                 if (!ContainerPlaced[temp / 10, temp % 10, 3])
                 {
                     ((PictureBox)Controls[i]).Image = Properties.Resources.disabled_cross;
-                    ((PictureBox)Controls[i]).Refresh();
                     Controls[i].Enabled = true;
+                    ((PictureBox)Controls[i]).Refresh();
                 }
             }
 
@@ -1048,12 +1056,54 @@ namespace Nekl_proj
             //WeightText.Text = "" + ContLeft.Location.Y + " > " + (Form1.ShipLeft.Location.Y - contGridTop[PlaceForCont.X, PlaceForCont.Y] * PcontHeight);
             //final_wind = cur_wind;
 
+            if (mistake == 0)
+                for (int i = Math.Max(0, PlaceForCont.X-1); i < Math.Min(3, PlaceForCont.X + 1); ++i)
+                    for (int j = Math.Max(0, PlaceForCont.Y - 1); j < Math.Min(5, PlaceForCont.Y + 1); ++j)
+                        if (ContainersWeb[i, j] != ContainersWeb[PlaceForCont.X, PlaceForCont.Y] && TestCollision(ContainersWeb[i,j], ContTop))
+                        {
+                            mistake += 1;
+                        }
+
+            if (mistake == 1)
+            {
+                mistake += 1;
+                textBox1.Visible = true;
+                textBox1.Location = new Point(Size.Width / 2, Size.Height / 2);
+                textBox1.Text = "ВРЕЗАЛИСЬ";
+                textBox1.Font = new Font("Arial", 20, FontStyle.Regular);
+                textBox1.Size = new Size(200,textBox1.Size.Height);
+            }
 
 
             ShipTop.Refresh();
             ContTop.Refresh();
             TopBox.Refresh();
             LeftBox.Refresh();            
+        }
+
+        private bool TestCollision(PictureBox a, PictureBox b)
+        {
+            //int Xdifference = (a.Location.X + (a.Size.Width / 2)) - (b.Location.X + (b.Size.Width / 2));
+            //int Ydifference = (a.Location.Y + (a.Size.Width / 2)) - (b.Location.Y + (b.Size.Height / 2));
+            //double dist = Math.Sqrt((Xdifference * Xdifference) + (Ydifference * Ydifference));
+            //if (dist < ((a.Size.Width / 2) + (b.Size.Width / 2)))
+            //    return true;
+            //else
+            //    false;
+
+            var aRect = new Rectangle(
+                a.Location.X,
+                a.Location.Y,
+                a.Width,
+                a.Height);
+
+            var bRect = new Rectangle(
+                b.Location.X,
+                b.Location.Y,
+                b.Width,
+                b.Height);
+
+            return aRect.IntersectsWith(bRect);
         }
     }
 
