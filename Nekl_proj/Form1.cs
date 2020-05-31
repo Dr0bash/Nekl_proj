@@ -83,6 +83,7 @@ namespace Nekl_proj
         int level = 0;
         Random r = new Random();
         Pen trospen = new Pen(Brushes.Black, 2);
+        static bool start = true;
 
         //Позиция мышки внутри WindDirectionBox
         static Point CoordInWindBox = new Point(0, 0);
@@ -101,6 +102,8 @@ namespace Nekl_proj
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+            textBox1.Visible = false;
 
             WindowState = FormWindowState.Maximized;
             Size ScreenSize = Size;
@@ -122,7 +125,7 @@ namespace Nekl_proj
 
 
 
-                    TopBox = new PictureBox
+            TopBox = new PictureBox
             {
                 Location = new Point(0, 0),
                 Size = new Size(Size.Width - SettingsSize.Width - 5, (int)(Size.Height / 3.0) + 10),
@@ -486,31 +489,40 @@ namespace Nekl_proj
         //Paint for windbox
         private void WindDirectionBox_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
+
             Size s = WindDirectionBox.Size;
             Graphics g = e.Graphics;
             Pen circlePen = new Pen(Brushes.Black, 1);
             g.DrawEllipse(circlePen, 0, 0, WindDirectionBox.Width - 1, WindDirectionBox.Height - 1);
             //g.DrawLine(circlePen, s.Width / 2, s.Height / 2, MousePosition.X - WindDirectionBox.Location.X + Location.X, MousePosition.Y - WindDirectionBox.Location.Y - Location.Y);
-
-            double rx = s.Width / 2;
-            double ry = s.Height / 2;
-            double x = CoordInWindBox.X - rx;
-            double y = CoordInWindBox.Y - ry;
-            double radius = rx;
-            double LineLength = Math.Sqrt(x * x + y * y);
-            if (LineLength > radius)
+            if (start)
             {
-                double relx = x;
-                double rely = y;
-                relx = relx / LineLength * radius;
-                rely = rely / LineLength * radius;
-                x = relx + rx;
-                y = rely + ry;
-                g.DrawLine(circlePen, s.Width / 2, s.Height / 2, (int)x, (int)y);
+                g.DrawLine(circlePen, s.Width / 2, s.Height / 2, s.Width / 2, s.Height / 2);
+                start = false;
             }
             else
             {
-                g.DrawLine(circlePen, s.Width / 2, s.Height / 2, CoordInWindBox.X, CoordInWindBox.Y);
+                double rx = s.Width / 2;
+                double ry = s.Height / 2;
+                double x = CoordInWindBox.X - rx;
+                double y = CoordInWindBox.Y - ry;
+                double radius = rx;
+                double LineLength = Math.Sqrt(x * x + y * y);
+                if (LineLength > radius)
+                {
+                    double relx = x;
+                    double rely = y;
+                    relx = relx / LineLength * radius;
+                    rely = rely / LineLength * radius;
+                    x = relx + rx;
+                    y = rely + ry;
+                    g.DrawLine(circlePen, s.Width / 2, s.Height / 2, (int)x, (int)y);
+                }
+                else
+                {
+                    g.DrawLine(circlePen, s.Width / 2, s.Height / 2, CoordInWindBox.X, CoordInWindBox.Y);
+                }
+
             }
         }
 
@@ -621,9 +633,9 @@ namespace Nekl_proj
             LulkaTop.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - LulkaTop.Size.Width / 2, ContPlace.Location.Y + ContPlace.Size.Height / 2 - LulkaTop.Size.Height / 2);
             PlaceForCont = new Point((int)ContPlace.Tag / 10, (int)ContPlace.Tag % 10);
             ContLeft.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
-            ContTop.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContTop.Size.Width / 2, ContPlace.Location.Y + ContPlace.Size.Height / 2 - ContTop.Size.Height / 2);
+            //ContTop.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContTop.Size.Width / 2, ContPlace.Location.Y + ContPlace.Size.Height / 2 - ContTop.Size.Height / 2);
             TrosLeft = new Tuple<Point, Point>(new Point(LulkaLeft.Location.X + LulkaLeft.Size.Width / 2 - LeftBox.Location.X, LulkaLeft.Location.Y + LulkaLeft.Size.Height - 1 - LeftBox.Location.Y), new Point(ContLeft.Location.X + ContLeft.Size.Width / 2 - LeftBox.Location.X, ContLeft.Location.Y - LeftBox.Location.Y));
-            TrosTop = new Tuple<Point, Point>(new Point(ContTop.Size.Width / 2, ContTop.Size.Height / 2), new Point(-ContTop.Location.X + LulkaTop.Location.X + LulkaTop.Size.Width / 2, -ContTop.Location.Y + LulkaTop.Location.Y + LulkaTop.Size.Height / 2));
+            //TrosTop = new Tuple<Point, Point>(new Point(ContTop.Size.Width / 2, ContTop.Size.Height / 2), new Point(-ContTop.Location.X + LulkaTop.Location.X + LulkaTop.Size.Width / 2, -ContTop.Location.Y + LulkaTop.Location.Y + LulkaTop.Size.Height / 2));
             Begin.Enabled = true;
 
             ContainerLocation = new Physics.Point3D(ContTop.Location.X, ContTop.Location.Y, ContLeft.Location.Y);
