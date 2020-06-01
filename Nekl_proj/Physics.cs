@@ -66,7 +66,7 @@ namespace Nekl_proj
 
         public static PointF WindChangeByContainers(int[,] topContsHeights, PointF wind, Point contGridLoc)
         {
-            PointF finWind = wind;
+            PointF finWind = new PointF(wind.X, wind.Y);
             //PointF answer = new PointF();
             double x = wind.X;
             double y = -wind.Y;
@@ -93,7 +93,15 @@ namespace Nekl_proj
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX+1,cY])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1,Math.Max(0, ((Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY] - contLocZ) /contHeight))));
+                            if (wind.Y == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
+                    Form1.speedAlarm = false;
                     break;
                 case 1:
                     if (cX < xmax && cY > 0)
@@ -102,38 +110,89 @@ namespace Nekl_proj
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY - 1] - contLocZ) / contHeight))));
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY - 1] - contLocZ) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY] && contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX + 1, cY], topContsHeights[cX, cY - 1])) / contHeight))));
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX + 1, cY], topContsHeights[cX, cY - 1])) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
+                            if (wind.Y == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                     }
                     if (cY < ymax && cX == 0)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
+                            if (wind.Y == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                     if (cX > 0 && cY == ymax)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
+                    Form1.speedAlarm = false;
                     break;
                 case 2:
                     if (cY > 0)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((-contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
+                    Form1.speedAlarm = false;
                     break;
                 case 3:
                     if (cY > 0 && cX > 0)
@@ -142,38 +201,89 @@ namespace Nekl_proj
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY - 1]) / contHeight))));
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY - 1]) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1] && contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY - 1], topContsHeights[cX - 1, cY])) / contHeight))));
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY - 1], topContsHeights[cX - 1, cY])) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
+                            if (wind.Y == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                     }
                     if (cY > 0 && cX == 0)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
+                            if (wind.Y == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                     if (cX > 0 && cY == 0)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
+                    Form1.speedAlarm = false;
                     break;
                 case 4:
                     if (cX > 0)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
+                            if (wind.Y == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
+                    Form1.speedAlarm = false;
                     break;
                 case 5:
                     if (cX > 0 && cY < ymax)
@@ -182,38 +292,89 @@ namespace Nekl_proj
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((-contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY + 1]) / contHeight))));
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((-contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY + 1]) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY] && contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((-contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX - 1, cY], topContsHeights[cX, cY + 1])) / contHeight))));
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((-contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX - 1, cY], topContsHeights[cX, cY + 1])) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((-contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
+                            if (wind.Y == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((-contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                     }
                     if (cX > 0 && cY == ymax)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((-contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
+                            if (wind.Y == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                     if (cY < xmax && cX == 0)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((-contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
+                    Form1.speedAlarm = false;
                     break;
                 case 6:
                     if (cY < ymax)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((-contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
+                    Form1.speedAlarm = false;
                     break;
                 case 7:
                     if (cY < ymax && cX < xmax)
@@ -222,38 +383,81 @@ namespace Nekl_proj
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY + 1]) / contHeight))));
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY + 1]) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1] && contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY + 1], topContsHeights[cX + 1, cY])) / contHeight))));
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * Math.Max(topContsHeights[cX, cY + 1], topContsHeights[cX + 1, cY])) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
+                            if (wind.Y == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY] && contLocZ + contHeight <= Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                     }
                     if (cY < ymax && cX == xmax)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
+                            if (wind.Y == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
                     if (cX < xmax && cY == ymax)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
+                            if (wind.X == 0)
+                                Form1.speedAlarm = false;
+                            else
+                            {
+                                Form1.speedAlarm = true;
+                                break;
+                            }
                         }
+                    Form1.speedAlarm = false;
                     break;
                 default:
                     throw new Exception("what");
             }
-            if (finWind.X != wind.X || finWind.Y != wind.Y)
-                Form1.speedAlarm = true;
-            else Form1.speedAlarm = false;
+            //if (finWind.X != wind.X || finWind.Y != wind.Y)
+            //    Form1.speedAlarm = true;
+            //else Form1.speedAlarm = false;
             return wind;
         }
     }

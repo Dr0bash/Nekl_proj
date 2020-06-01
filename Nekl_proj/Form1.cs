@@ -65,7 +65,7 @@ namespace Nekl_proj
         public static PointF final_wind = new PointF(0, 0);
         static bool wind_changed = false;
         static PointF wind_change_speed = new PointF(0, 0);
-        static double max_wind_power = 10;
+        static double max_wind_power = 6;
         static double wind_change_speed_fraction = 0.01;
 
         static int weight = 20;
@@ -117,13 +117,21 @@ namespace Nekl_proj
         {
 
             textBox1.Visible = false;
+            bool truesize = false;
+            if (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width == 1920 && System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height == 1080)
+            {
+                WindowState = FormWindowState.Maximized;
+                ScreenSize = Size;
+                WindowState = FormWindowState.Normal;
+                Size = new Size(1936, 1046);
+                truesize = true;
+            }
+            else
+            {
+                //Size = new Size(1280, 720);
+                //ScreenSize = Size;
+            }
 
-            WindowState = FormWindowState.Maximized;
-            ScreenSize = Size;
-            WindowState = FormWindowState.Normal;
-            Size = new Size(ScreenSize.Width, ScreenSize.Height - Size.Height / 64);
-            //Size = new Size(1920,1080);
-            //ScreenSize = Size;
 
             WaterLevel = ScreenSize.Height / 9.0;
             Ampl = WaterLevel / 6.0;
@@ -155,8 +163,8 @@ namespace Nekl_proj
                 BorderStyle = BorderStyle.FixedSingle
             };
 
-            WorldCharacteristics.MaxRopeDownSpeed = 1.7 * Size.Height / 1046;//+ (638-LeftBox.Size.Height)*0.0010182;
-            WorldCharacteristics.MaxHorizontalCraneSpeed = 10.0 * Size.Width / 1936.0;
+            WorldCharacteristics.MaxRopeDownSpeed = 1.7 * Size.Height / 1046 + (truesize ? 0 : 0.7);//+ (638-LeftBox.Size.Height)*0.0010182;
+            WorldCharacteristics.MaxHorizontalCraneSpeed = 20 * Size.Width / 1936.0;
             logic = new Logic(WorldCharacteristics.MaxHorizontalCraneSpeed * WorldCharacteristics.TimeDimension, WorldCharacteristics.MaxRopeDownSpeed * WorldCharacteristics.TimeDimension);
 
             SettingsBox = new PictureBox
@@ -210,7 +218,7 @@ namespace Nekl_proj
                 Size = new Size(SettingsSize.Width - 20, 20),
                 TickFrequency = 1,
                 Minimum = 15,
-                Maximum = 30,
+                Maximum = 28,
                 Value = weight,
                 SmallChange = 1,
                 LargeChange = 1
@@ -231,8 +239,8 @@ namespace Nekl_proj
                 Location = new Point(TopBox.Width + 5, AmplText.Location.Y + AmplText.Size.Height + 10),
                 Size = new Size(SettingsSize.Width - 20, 10),
                 TickFrequency = 5,
-                Minimum = (int)(WaterLevel / 12),
-                Maximum = (int)(WaterLevel / 2.4),
+                Minimum = (int)(Ampl),
+                Maximum = (int)(WaterLevel / 3),
                 Value = (int)(Ampl),
                 SmallChange = 1,
                 LargeChange = 1
@@ -1062,6 +1070,7 @@ namespace Nekl_proj
                     var x = logic.DeviationCompensation(((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2)));
                     var y = logic.HeightCompensation(((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2)), (ShipLeft.Location.Y - contGridTop[PlaceForCont.X, PlaceForCont.Y] * PcontHeight - (ContLeft.Location.Y + ContLeft.Size.Height)) /(10.0 * Size.Width / 1936.0));
                     var yTop = logic.DeviationCompensation((ContTop.Location.Y + ContTop.Size.Height / 2) - (CurrentContPlace.Location.Y + CurrentContPlace.Size.Height / 2));
+                    //x = speedAlarm ? (x*0.7) : x;
                     AdditionToLeftX += x;
                     AdditionToTopY += yTop;
                     int addX = (int)Math.Truncate(AdditionToLeftX);
@@ -1074,27 +1083,26 @@ namespace Nekl_proj
                     TrosTop = new Tuple<Point, Point>(new Point(TrosTop.Item1.X + addX, TrosTop.Item1.Y + addYTop), new Point(TrosTop.Item2.X + addX, TrosTop.Item2.Y + addYTop));
 
                     //фезека
-
-                    rope_length += y;//animationspeed;
+                    rope_length += speedAlarm ? (0) : y;
 
                     //test
-                    if (mistake == 0)
-                        for (int i = Math.Max(0, PlaceForCont.X - 1); i < Math.Min(3, PlaceForCont.X + 1); ++i)
-                            for (int j = Math.Max(0, PlaceForCont.Y - 1); j < Math.Min(5, PlaceForCont.Y + 1); ++j)
-                                if (((ShipLeft.Location.Y - ContLeft.Location.Y) / ContLeft.Size.Height) <= 5 && !(i == PlaceForCont.X && j == PlaceForCont.Y) && TestCollision(ContainersWeb[i, j], ContTop))
-                                {
-                                    mistake += 1;
-                                }
+                    //if (mistake == 0)
+                    //    for (int i = Math.Max(0, PlaceForCont.X - 1); i < Math.Min(3, PlaceForCont.X + 1); ++i)
+                    //        for (int j = Math.Max(0, PlaceForCont.Y - 1); j < Math.Min(5, PlaceForCont.Y + 1); ++j)
+                    //            if (((ShipLeft.Location.Y - ContLeft.Location.Y) / ContLeft.Size.Height) <= 5 && !(i == PlaceForCont.X && j == PlaceForCont.Y) && TestCollision(ContainersWeb[i, j], ContTop))
+                    //            {
+                    //                mistake += 1;
+                    //            }
 
-                    if (mistake == 1)
-                    {
-                        mistake += 1;
-                        textBox1.Visible = true;
-                        textBox1.Location = new Point(Size.Width / 2, Size.Height / 2);
-                        textBox1.Text = "ВРЕЗАЛИСЬ";
-                        textBox1.Font = new Font("Arial", 20, FontStyle.Regular);
-                        textBox1.Size = new Size(200, textBox1.Size.Height);
-                    }
+                    //if (mistake == 1)
+                    //{
+                    //    mistake += 1;
+                    //    textBox1.Visible = true;
+                    //    textBox1.Location = new Point(Size.Width / 2, Size.Height / 2);
+                    //    textBox1.Text = "ВРЕЗАЛИСЬ";
+                    //    textBox1.Font = new Font("Arial", 20, FontStyle.Regular);
+                    //    textBox1.Size = new Size(200, textBox1.Size.Height);
+                    //}
                 }
             }
 
@@ -1111,7 +1119,7 @@ namespace Nekl_proj
             //WeightText.Text = "" + ContLeft.Location.Y + " > " + (Form1.ShipLeft.Location.Y - contGridTop[PlaceForCont.X, PlaceForCont.Y] * PcontHeight);
             //final_wind = cur_wind;
 
-
+            //WeightText.Text = speedAlarm + "";
             ShipTop.Refresh();
             ContTop.Refresh();
             TopBox.Refresh();
