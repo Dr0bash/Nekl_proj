@@ -23,14 +23,14 @@ namespace Nekl_proj
 {
     public class WorldCharacteristics
     {
-        public const double MaxRopeDownSpeed = 1.7;         // м/c
+        public static double MaxRopeDownSpeed; //System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height/1080.0;         // м/c
         public const double MaxRopeUpSpeed = 0.7;           // м/c
-        public const double MaxHorizontalCraneSpeed = 10.0;  // м/c
+        public static double MaxHorizontalCraneSpeed;  // м/c
 
         public const double MaxWindSpeed = 30;              // м/c
         public const double MaxWaveHeight = 4;              // м
 
-        public const double TimeDimension = 1;            // c
+        public static double TimeDimension = 1;            // c
 
         public double CurrentRopeLength = 0;               // м
     }

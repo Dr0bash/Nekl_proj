@@ -76,7 +76,7 @@ namespace Nekl_proj
         public static int PcontHeight;
         static double waveFunctionNum = 1;
 
-
+        public static Size ScreenSize;
 
         static double eps = 0.1;
 
@@ -104,7 +104,7 @@ namespace Nekl_proj
 
         //логика
 
-        private Logic logic = new Logic(WorldCharacteristics.MaxHorizontalCraneSpeed * WorldCharacteristics.TimeDimension, WorldCharacteristics.MaxRopeDownSpeed * WorldCharacteristics.TimeDimension);
+        private Logic logic;
 
         public Form1()
         {
@@ -117,10 +117,12 @@ namespace Nekl_proj
             textBox1.Visible = false;
 
             WindowState = FormWindowState.Maximized;
-            Size ScreenSize = Size;
+            ScreenSize = Size;
             WindowState = FormWindowState.Normal;
             Size = new Size(ScreenSize.Width, ScreenSize.Height - Size.Height / 64);
-            //Size = new Size(1280, 720);
+            //Size = new Size(1920,1080);
+            //ScreenSize = Size;
+
             WaterLevel = ScreenSize.Height / 9.0;
             Ampl = WaterLevel / 6.0;
             Location = new Point(-7, 0);
@@ -146,10 +148,14 @@ namespace Nekl_proj
             LeftBox = new PictureBox
             {
                 Location = new Point(0, TopBox.Location.Y + TopBox.Height),
-                Size = new Size(Size.Width - SettingsSize.Width - 5, Size.Height - TopBox.Height - 50),
+                Size = new Size(Size.Width - SettingsSize.Width - 5, (int)(Size.Height - TopBox.Height - (Size.Height/20.92))),
                 BackColor = Color.White,
                 BorderStyle = BorderStyle.FixedSingle
             };
+
+            WorldCharacteristics.MaxRopeDownSpeed = 1.7 * Size.Height / 1046;//+ (638-LeftBox.Size.Height)*0.0010182;
+            WorldCharacteristics.MaxHorizontalCraneSpeed = 10.0 * Size.Width / 1936.0;
+            logic = new Logic(WorldCharacteristics.MaxHorizontalCraneSpeed * WorldCharacteristics.TimeDimension, WorldCharacteristics.MaxRopeDownSpeed * WorldCharacteristics.TimeDimension);
 
             SettingsBox = new PictureBox
             {
@@ -1052,7 +1058,7 @@ namespace Nekl_proj
                 else
                 {
                     var x = logic.DeviationCompensation(((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2)));
-                    var y = logic.HeightCompensation(((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2)), (ShipLeft.Location.Y - contGridTop[PlaceForCont.X, PlaceForCont.Y] * PcontHeight - (ContLeft.Location.Y + ContLeft.Size.Height)) /10.0);
+                    var y = logic.HeightCompensation(((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2)), (ShipLeft.Location.Y - contGridTop[PlaceForCont.X, PlaceForCont.Y] * PcontHeight - (ContLeft.Location.Y + ContLeft.Size.Height)) /(10.0 * Size.Width / 1936.0));
                     var yTop = logic.DeviationCompensation((ContTop.Location.Y + ContTop.Size.Height / 2) - (CurrentContPlace.Location.Y + CurrentContPlace.Size.Height / 2));
                     AdditionToLeftX += x;
                     AdditionToTopY += yTop;
