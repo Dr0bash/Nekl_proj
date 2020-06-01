@@ -353,23 +353,21 @@ namespace Nekl_proj
 
             ContLeftMiddle = new PictureBox
             {
-                Location = new Point(0, 0),
+                Location = ContLeftFront.Location,
                 Size = new Size((int)(LeftBox.Size.Width / 8.48), (int)(LeftBox.Size.Height / 13.9)),
                 BorderStyle = BorderStyle.FixedSingle,
-                BackColor = Color.Yellow
+                BackColor = Color.Yellow,
+                Visible = false
             };
-
-            ContLeftMiddle.Location = new Point(-500, ContLeftFront.Location.Y);
 
             ContLeftBack = new PictureBox
             {
-                Location = new Point(0, 0),
+                Location = ContLeftFront.Location,
                 Size = new Size((int)(LeftBox.Size.Width / 8.48), (int)(LeftBox.Size.Height / 13.9)),
                 BorderStyle = BorderStyle.FixedSingle,
-                BackColor = Color.Yellow
+                BackColor = Color.Yellow,
+                Visible = false
             };
-
-            ContLeftBack.Location = new Point(-500, ContLeftFront.Location.Y);
 
             ContLeft = ContLeftFront;
 
@@ -548,7 +546,7 @@ namespace Nekl_proj
             timer1.Start();
 
             ContainerLocation = new Physics.Point3D(ContTop.Location.X, ContTop.Location.Y, ContLeft.Location.Y);
-
+            PcontHeight = ContLeft.Size.Height;
         }
 
         private void Check_Click(object sender, EventArgs e)
@@ -735,13 +733,15 @@ namespace Nekl_proj
             LulkaTop.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - LulkaTop.Size.Width / 2, ContPlace.Location.Y + ContPlace.Size.Height / 2 - LulkaTop.Size.Height / 2);
             PlaceForCont = new Point((int)ContPlace.Tag / 10, (int)ContPlace.Tag % 10);
             ContLeft.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
+            ContLeftBack.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
+            ContLeftMiddle.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
+            ContLeftFront.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
             //ContTop.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContTop.Size.Width / 2, ContPlace.Location.Y + ContPlace.Size.Height / 2 - ContTop.Size.Height / 2);
             TrosLeft = new Tuple<Point, Point>(new Point(LulkaLeft.Location.X + LulkaLeft.Size.Width / 2 - LeftBox.Location.X, LulkaLeft.Location.Y + LulkaLeft.Size.Height - 1 - LeftBox.Location.Y), new Point(ContLeft.Location.X + ContLeft.Size.Width / 2 - LeftBox.Location.X, ContLeft.Location.Y - LeftBox.Location.Y));
             //TrosTop = new Tuple<Point, Point>(new Point(ContTop.Size.Width / 2, ContTop.Size.Height / 2), new Point(-ContTop.Location.X + LulkaTop.Location.X + LulkaTop.Size.Width / 2, -ContTop.Location.Y + LulkaTop.Location.Y + LulkaTop.Size.Height / 2));
             Begin.Enabled = true;
 
             ContainerLocation = new Physics.Point3D(ContTop.Location.X, ContTop.Location.Y, ContLeft.Location.Y);
-            PcontHeight = ContLeft.Size.Height;
 
             TopBox.Refresh();
             LeftBox.Refresh();
@@ -784,29 +784,38 @@ namespace Nekl_proj
             if (PlaceForCont.X == 0)
             {
                 ContLeftBack.BackColor = ContLeft.BackColor;
+                ContLeftBack.Visible = true;
                 ContLeft = ContLeftBack;
-                //ContLeft.Location = new Point(CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
-                ContLeft.Location = new Point(Math.Max(ContLeftMiddle.Location.X, ContLeftFront.Location.X), ContLeft.Location.Y);
-                ContLeftMiddle.Location = new Point(-500, y);
-                ContLeftFront.Location = new Point(-500, y);
+                ContLeftMiddle.Visible = false;
+                ContLeftFront.Visible = false;
+                ////ContLeft.Location = new Point(CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
+                //ContLeft.Location = new Point(Math.Max(ContLeftMiddle.Location.X, ContLeftFront.Location.X), ContLeft.Location.Y);
+                //ContLeftMiddle.Location = new Point(-500, y);
+                //ContLeftFront.Location = new Point(-500, y);
             }
             else if (PlaceForCont.X == 1)
             {
                 ContLeftMiddle.BackColor = ContLeft.BackColor;
+                ContLeftMiddle.Visible = true;
                 ContLeft = ContLeftMiddle;
-                //ContLeft.Location = new Point(CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
-                ContLeft.Location = new Point(Math.Max(ContLeftBack.Location.X, ContLeftFront.Location.X), ContLeft.Location.Y);
-                ContLeftBack.Location = new Point(-500, y);
-                ContLeftFront.Location = new Point(-500, y);
+                ContLeftFront.Visible = false;
+                ContLeftBack.Visible = false;
+                ////ContLeft.Location = new Point(CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
+                //ContLeft.Location = new Point(Math.Max(ContLeftBack.Location.X, ContLeftFront.Location.X), ContLeft.Location.Y);
+                //ContLeftBack.Location = new Point(-500, y);
+                //ContLeftFront.Location = new Point(-500, y);
             }
             else
             {
                 ContLeftFront.BackColor = ContLeft.BackColor;
+                ContLeftFront.Visible = true;
                 ContLeft = ContLeftFront;
-                //ContLeft.Location = new Point(CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
-                ContLeft.Location = new Point(Math.Max(ContLeftBack.Location.X, ContLeftMiddle.Location.X), ContLeft.Location.Y);
-                ContLeftBack.Location = new Point(-500, y);
-                ContLeftMiddle.Location = new Point(-500, y);
+                ContLeftMiddle.Visible = false;
+                ContLeftBack.Visible = false;
+                ////ContLeft.Location = new Point(CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, ContLeft.Location.Y);
+                //ContLeft.Location = new Point(Math.Max(ContLeftBack.Location.X, ContLeftMiddle.Location.X), ContLeft.Location.Y);
+                //ContLeftBack.Location = new Point(-500, y);
+                //ContLeftMiddle.Location = new Point(-500, y);
             }
 
             if (ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, 0])
@@ -1025,8 +1034,8 @@ namespace Nekl_proj
                     AdditionToLeftX = 0;
                     AdditionToTopY = 0;
                     animation = false;
-                    var x = logic.DeviationCompensation((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2));
-                    var y = logic.HeightCompensation((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2), ShipLeft.Location.Y - (ContLeft.Location.Y + ContLeft.Size.Height));
+                    var x = logic.DeviationCompensation(((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2)));
+                    var y = logic.HeightCompensation(((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2)), (ShipLeft.Location.Y - contGridTop[PlaceForCont.X, PlaceForCont.Y] * PcontHeight - (ContLeft.Location.Y + ContLeft.Size.Height)) / 10.0);
                     var yTop = logic.DeviationCompensation((ContTop.Location.Y + ContTop.Size.Height / 2) - (CurrentContPlace.Location.Y + CurrentContPlace.Size.Height / 2));
                     AdditionToLeftX += x;
                     AdditionToTopY += yTop;
@@ -1042,8 +1051,8 @@ namespace Nekl_proj
                 }
                 else
                 {
-                    var x = logic.DeviationCompensation((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2));
-                    var y = logic.HeightCompensation((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2), ShipLeft.Location.Y - (ContLeft.Location.Y + ContLeft.Size.Height));
+                    var x = logic.DeviationCompensation(((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2)));
+                    var y = logic.HeightCompensation(((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2)), (ShipLeft.Location.Y - contGridTop[PlaceForCont.X, PlaceForCont.Y] * PcontHeight - (ContLeft.Location.Y + ContLeft.Size.Height)) /10.0);
                     var yTop = logic.DeviationCompensation((ContTop.Location.Y + ContTop.Size.Height / 2) - (CurrentContPlace.Location.Y + CurrentContPlace.Size.Height / 2));
                     AdditionToLeftX += x;
                     AdditionToTopY += yTop;
@@ -1064,7 +1073,7 @@ namespace Nekl_proj
                     if (mistake == 0)
                         for (int i = Math.Max(0, PlaceForCont.X - 1); i < Math.Min(3, PlaceForCont.X + 1); ++i)
                             for (int j = Math.Max(0, PlaceForCont.Y - 1); j < Math.Min(5, PlaceForCont.Y + 1); ++j)
-                                if (((ContLeft.Location.Y - ShipLeft.Location.Y) / ContLeft.Size.Height) <= 3 && !(i == PlaceForCont.X && j == PlaceForCont.Y) && TestCollision(ContainersWeb[i, j], ContTop))
+                                if (((ShipLeft.Location.Y - ContLeft.Location.Y) / ContLeft.Size.Height) <= 5 && !(i == PlaceForCont.X && j == PlaceForCont.Y) && TestCollision(ContainersWeb[i, j], ContTop))
                                 {
                                     mistake += 1;
                                 }
