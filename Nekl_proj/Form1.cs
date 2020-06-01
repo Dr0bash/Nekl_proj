@@ -857,8 +857,6 @@ namespace Nekl_proj
 
             ContTop.Location = new Point(CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2 - ContTop.Size.Width / 2, CurrentContPlace.Location.Y + CurrentContPlace.Size.Height / 2 - ContTop.Size.Height / 2);
             TrosTop = new Tuple<Point, Point>(new Point(LulkaTop.Location.X + LulkaTop.Size.Width / 2 - TopBox.Location.X, LulkaTop.Location.Y + LulkaTop.Size.Height / 2 - 1 - TopBox.Location.Y), new Point(ContTop.Location.X + ContTop.Size.Width / 2 - TopBox.Location.X, ContTop.Location.Y - TopBox.Location.Y + ContTop.Size.Height / 2));
-            ContTop.Refresh();
-            TopBox.Refresh();
             //LeftBox
             if (PlaceForCont.X > 0)
             {
@@ -887,19 +885,6 @@ namespace Nekl_proj
             Color c = Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255));
             ContLeft.BackColor = c;
 
-            //TopBox
-            ContTop.BackColor = c;
-            for (int i = krestikloc; i < krestikloc + 15; ++i)
-            {
-                int temp = (int)((PictureBox)Controls[i]).Tag;
-                if (!ContainerPlaced[temp / 10, temp % 10, 3])
-                {
-                    ((PictureBox)Controls[i]).Image = Properties.Resources.disabled_cross;
-                    Controls[i].Enabled = true;
-                    ((PictureBox)Controls[i]).Refresh();
-                }
-            }
-
             //TurnOnAllTros
             for (int i = contslocback; i < contslocback + 20; ++i)
             {
@@ -919,6 +904,22 @@ namespace Nekl_proj
                 ((PictureBox)Controls[i]).Paint += new PaintEventHandler(ContsLeft_Paint);
             }
 
+            //TopBox
+            var tr = TrosTop;
+            ContTop.BackColor = c;
+            for (int i = krestikloc; i < krestikloc + 15; ++i)
+            {
+                int temp = (int)((PictureBox)Controls[i]).Tag;
+                if (!ContainerPlaced[temp / 10, temp % 10, 3])
+                {
+                    Controls[i].Enabled = true;
+                    ((PictureBox)Controls[i]).Image = Properties.Resources.disabled_cross;
+                    TrosTop = new Tuple<Point, Point>(new Point(((PictureBox)Controls[i]).Location.X, ((PictureBox)Controls[i]).Location.Y), new Point(((PictureBox)Controls[i]).Location.X, ((PictureBox)Controls[i]).Location.Y));
+                    ((PictureBox)Controls[i]).Refresh();
+                }
+            }
+
+            TrosTop = tr;
 
             Begin.Enabled = true;
             if (ContainerPlaced[PlaceForCont.X, PlaceForCont.Y, 3])
@@ -926,6 +927,9 @@ namespace Nekl_proj
             var ContPlace = ContainersWeb[PlaceForCont.X, PlaceForCont.Y];
             ContLeft.Location = new Point(ContPlace.Location.X + ContPlace.Size.Width / 2 - ContLeft.Size.Width / 2, LeftBox.Location.Y + (int)(LeftBox.Size.Height / 4.3));
             TrosLeft = new Tuple<Point, Point>(new Point(LulkaLeft.Location.X + LulkaLeft.Size.Width / 2 - LeftBox.Location.X, LulkaLeft.Location.Y + LulkaLeft.Size.Height - 1 - LeftBox.Location.Y), new Point(ContLeft.Location.X + ContLeft.Size.Width / 2 - LeftBox.Location.X, ContLeft.Location.Y - LeftBox.Location.Y));
+
+            ContTop.Refresh();
+            TopBox.Refresh();
 
             AmplBar.Enabled = true;
             WeightBar.Enabled = true;
@@ -1021,26 +1025,60 @@ namespace Nekl_proj
                     AdditionToLeftX = 0;
                     AdditionToTopY = 0;
                     animation = false;
+                    var x = logic.DeviationCompensation((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2));
+                    var y = logic.HeightCompensation((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2), ShipLeft.Location.Y - (ContLeft.Location.Y + ContLeft.Size.Height));
+                    var yTop = logic.DeviationCompensation((ContTop.Location.Y + ContTop.Size.Height / 2) - (CurrentContPlace.Location.Y + CurrentContPlace.Size.Height / 2));
+                    AdditionToLeftX += x;
+                    AdditionToTopY += yTop;
+                    int addX = (int)Math.Truncate(AdditionToLeftX);
+                    int addYTop = (int)Math.Truncate(AdditionToTopY);
+
+                    LulkaLeft.Location = new Point(begLocLulLeft.X + addX, begLocLulLeft.Y);
+                    TrosLeft = new Tuple<Point, Point>(new Point(TrosLeft.Item1.X + addX, TrosLeft.Item1.Y), new Point(TrosLeft.Item2.X + addX, TrosLeft.Item2.Y));
+
+                    LulkaTop.Location = new Point(begLocLulTop.X + addX, begLocLulTop.Y + addYTop);
+                    TrosTop = new Tuple<Point, Point>(new Point(TrosTop.Item1.X + addX, TrosTop.Item1.Y + addYTop), new Point(TrosTop.Item2.X + addX, TrosTop.Item2.Y + addYTop));
                     After_animation();
                 }
+                else
+                {
+                    var x = logic.DeviationCompensation((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2));
+                    var y = logic.HeightCompensation((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2), ShipLeft.Location.Y - (ContLeft.Location.Y + ContLeft.Size.Height));
+                    var yTop = logic.DeviationCompensation((ContTop.Location.Y + ContTop.Size.Height / 2) - (CurrentContPlace.Location.Y + CurrentContPlace.Size.Height / 2));
+                    AdditionToLeftX += x;
+                    AdditionToTopY += yTop;
+                    int addX = (int)Math.Truncate(AdditionToLeftX);
+                    int addYTop = (int)Math.Truncate(AdditionToTopY);
 
-                var x = logic.DeviationCompensation((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2));
-                var y = logic.HeightCompensation((ContLeft.Location.X + ContLeft.Size.Width / 2) - (CurrentContPlace.Location.X + CurrentContPlace.Size.Width / 2), ShipLeft.Location.Y-(ContLeft.Location.Y + ContLeft.Size.Height));
-                var yTop = logic.DeviationCompensation((ContTop.Location.Y + ContTop.Size.Height / 2) - (CurrentContPlace.Location.Y + CurrentContPlace.Size.Height / 2));
-                AdditionToLeftX += x;
-                AdditionToTopY += yTop;
-                int addX = (int)Math.Truncate(AdditionToLeftX);
-                int addYTop = (int)Math.Truncate(AdditionToTopY);
+                    LulkaLeft.Location = new Point(begLocLulLeft.X + addX, begLocLulLeft.Y);
+                    TrosLeft = new Tuple<Point, Point>(new Point(TrosLeft.Item1.X + addX, TrosLeft.Item1.Y), new Point(TrosLeft.Item2.X + addX, TrosLeft.Item2.Y));
 
-                LulkaLeft.Location = new Point(begLocLulLeft.X + addX, begLocLulLeft.Y);
-                TrosLeft = new Tuple<Point, Point>(new Point(TrosLeft.Item1.X + addX, TrosLeft.Item1.Y), new Point(TrosLeft.Item2.X+addX, TrosLeft.Item2.Y));
+                    LulkaTop.Location = new Point(begLocLulTop.X + addX, begLocLulTop.Y + addYTop);
+                    TrosTop = new Tuple<Point, Point>(new Point(TrosTop.Item1.X + addX, TrosTop.Item1.Y + addYTop), new Point(TrosTop.Item2.X + addX, TrosTop.Item2.Y + addYTop));
 
-                LulkaTop.Location = new Point(begLocLulTop.X + addX, begLocLulTop.Y + addYTop);
-                TrosTop = new Tuple<Point, Point>(new Point(TrosTop.Item1.X + addX, TrosTop.Item1.Y + addYTop), new Point(TrosTop.Item2.X + addX, TrosTop.Item2.Y + addYTop));
+                    //фезека
 
-                //фезека
+                    rope_length += y;//animationspeed;
 
-                rope_length += y;//animationspeed;
+                    //test
+                    if (mistake == 0)
+                        for (int i = Math.Max(0, PlaceForCont.X - 1); i < Math.Min(3, PlaceForCont.X + 1); ++i)
+                            for (int j = Math.Max(0, PlaceForCont.Y - 1); j < Math.Min(5, PlaceForCont.Y + 1); ++j)
+                                if (((ContLeft.Location.Y - ShipLeft.Location.Y) / ContLeft.Size.Height) <= 3 && !(i == PlaceForCont.X && j == PlaceForCont.Y) && TestCollision(ContainersWeb[i, j], ContTop))
+                                {
+                                    mistake += 1;
+                                }
+
+                    if (mistake == 1)
+                    {
+                        mistake += 1;
+                        textBox1.Visible = true;
+                        textBox1.Location = new Point(Size.Width / 2, Size.Height / 2);
+                        textBox1.Text = "ВРЕЗАЛИСЬ";
+                        textBox1.Font = new Font("Arial", 20, FontStyle.Regular);
+                        textBox1.Size = new Size(200, textBox1.Size.Height);
+                    }
+                }
             }
 
             ContLeft.Location = new Point(TrosLeft.Item2.X - ContLeft.Size.Width / 2, TrosLeft.Item2.Y + LeftBox.Location.Y);
@@ -1056,24 +1094,6 @@ namespace Nekl_proj
             //WeightText.Text = "" + ContLeft.Location.Y + " > " + (Form1.ShipLeft.Location.Y - contGridTop[PlaceForCont.X, PlaceForCont.Y] * PcontHeight);
             //final_wind = cur_wind;
 
-            if (mistake == 0)
-                for (int i = Math.Max(0, PlaceForCont.X-1); i < Math.Min(3, PlaceForCont.X + 1); ++i)
-                    for (int j = Math.Max(0, PlaceForCont.Y - 1); j < Math.Min(5, PlaceForCont.Y + 1); ++j)
-                        if (ContainersWeb[i, j] != ContainersWeb[PlaceForCont.X, PlaceForCont.Y] && TestCollision(ContainersWeb[i,j], ContTop))
-                        {
-                            mistake += 1;
-                        }
-
-            if (mistake == 1)
-            {
-                mistake += 1;
-                textBox1.Visible = true;
-                textBox1.Location = new Point(Size.Width / 2, Size.Height / 2);
-                textBox1.Text = "ВРЕЗАЛИСЬ";
-                textBox1.Font = new Font("Arial", 20, FontStyle.Regular);
-                textBox1.Size = new Size(200,textBox1.Size.Height);
-            }
-
 
             ShipTop.Refresh();
             ContTop.Refresh();
@@ -1083,14 +1103,6 @@ namespace Nekl_proj
 
         private bool TestCollision(PictureBox a, PictureBox b)
         {
-            //int Xdifference = (a.Location.X + (a.Size.Width / 2)) - (b.Location.X + (b.Size.Width / 2));
-            //int Ydifference = (a.Location.Y + (a.Size.Width / 2)) - (b.Location.Y + (b.Size.Height / 2));
-            //double dist = Math.Sqrt((Xdifference * Xdifference) + (Ydifference * Ydifference));
-            //if (dist < ((a.Size.Width / 2) + (b.Size.Width / 2)))
-            //    return true;
-            //else
-            //    false;
-
             var aRect = new Rectangle(
                 a.Location.X,
                 a.Location.Y,
