@@ -7,16 +7,18 @@ namespace Nekl_proj
 
         public Point2D(double x, double y) { X = x; Y = y; }
 
-        // Находит точку на пересечнии прямой, образованной p1 и p2, и прямой y = y0
+        /// Находит точку на пересечнии прямой, образованной p1 и p2, и прямой y = y0
         public static Point2D LineXForY(Point2D p1, Point2D p2, double y0)
             => new Point2D(((p2.X - p1.X) * y0 + p1.X * p2.Y - p2.X * p1.Y) / (p2.Y - p1.Y), y0);
 
-        // Находит точку пересечения линии, заданной p11 и p12, и линии, заданной p21 и p22
+        /// Находит точку пересечения линии, заданной p11 и p12, и линии, заданной p21 и p22
         public static Point2D LinesIntersection(Point2D p11, Point2D p12, Point2D p21, Point2D p22)
         {
+            // Работает неправильно
             var a1 = p12.Y - p11.Y;
             var b1 = p11.X - p12.X;
             var c1 = -a1 * p11.X - b1 * p11.Y;
+            
             
             var a2 = p22.Y - p21.Y;
             var b2 = p21.X - p22.X;
@@ -47,7 +49,6 @@ namespace Nekl_proj
             TopRight = topRight;
         }
         
-        //  
         public Trapeze Cut(double  affiliationDegree)
             => new Trapeze(
                 new Point2D(BottomLeft, 0),
