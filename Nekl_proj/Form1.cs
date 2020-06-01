@@ -62,7 +62,7 @@ namespace Nekl_proj
 
         static PointF wind = new PointF(0, 0);
         static PointF cur_wind = new PointF(0, 0);
-        static PointF final_wind = new PointF(0, 0);
+        public static PointF final_wind = new PointF(0, 0);
         static bool wind_changed = false;
         static PointF wind_change_speed = new PointF(0, 0);
         static double max_wind_power = 10;
@@ -76,7 +76,9 @@ namespace Nekl_proj
         public static int PcontHeight;
         static double waveFunctionNum = 1;
 
+
         public static Size ScreenSize;
+        public static bool speedAlarm = false;
 
         static double eps = 0.1;
 

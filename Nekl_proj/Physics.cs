@@ -38,9 +38,6 @@ namespace Nekl_proj
         }
         public static PointF Wind_to_destination(PointF wind_now, PointF speed)
         {
-            //Random r = new Random();
-            //int asd = r.Next(0, 255);
-            //Form1.WaterLeft.BackColor = Color.FromArgb(asd,asd,asd);
             PointF answer = new PointF();
 
             answer.X = wind_now.X + speed.X;
@@ -69,6 +66,7 @@ namespace Nekl_proj
 
         public static PointF WindChangeByContainers(int[,] topContsHeights, PointF wind, Point contGridLoc)
         {
+            PointF finWind = wind;
             //PointF answer = new PointF();
             double x = wind.X;
             double y = -wind.Y;
@@ -96,7 +94,7 @@ namespace Nekl_proj
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1,Math.Max(0, ((Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY] - contLocZ) /contHeight))));
                         }
-                    return wind;
+                    break;
                 case 1:
                     if (cX < xmax && cY > 0)
                     {
@@ -129,14 +127,14 @@ namespace Nekl_proj
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
                         }
-                    return wind;
+                    break;
                 case 2:
                     if (cY > 0)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1])
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((-contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY - 1]) / contHeight))));
                         }
-                    return wind;
+                    break;
                 case 3:
                     if (cY > 0 && cX > 0)
                     {
@@ -169,14 +167,14 @@ namespace Nekl_proj
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
                         }
-                    return wind;
+                    break;
                 case 4:
                     if (cX > 0)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY])
                         {
                             wind.Y = (float)(wind.Y * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX - 1, cY]) / contHeight))));
                         }
-                    return wind;
+                    break;
                 case 5:
                     if (cX > 0 && cY < ymax)
                     {
@@ -209,14 +207,14 @@ namespace Nekl_proj
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((-contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
                         }
-                    return wind;
+                    break;
                 case 6:
                     if (cY < ymax)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1])
                         {
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((-contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX, cY + 1]) / contHeight))));
                         }
-                    return wind;
+                    break;
                 case 7:
                     if (cY < ymax && cX < xmax)
                     {
@@ -247,15 +245,16 @@ namespace Nekl_proj
                     if (cX < xmax && cY == ymax)
                         if (contLocZ + contHeight > Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY])
                         {
-                            //Random r = new Random();
-                            //int asd = r.Next(0, 255);
-                            //Form1.WaterLeft.BackColor = Color.FromArgb(asd, asd, asd);
                             wind.X = (float)(wind.X * Math.Min(1, Math.Max(0, ((- contLocZ + Form1.ShipLeft.Location.Y - contHeight * topContsHeights[cX + 1, cY]) / contHeight))));
                         }
-                    return wind;
+                    break;
                 default:
                     throw new Exception("what");
             }
+            if (finWind.X != wind.X || finWind.Y != wind.Y)
+                Form1.speedAlarm = true;
+            else Form1.speedAlarm = false;
+            return wind;
         }
     }
 }
