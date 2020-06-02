@@ -169,8 +169,7 @@ namespace Nekl_proj
                 BorderStyle = BorderStyle.FixedSingle
             };
 
-            WorldCharacteristics.MaxRopeDownSpeed =
-                1.7 * Size.Height / 1046 + (truesize ? 0 : 0.7); //+ (638-LeftBox.Size.Height)*0.0010182;
+            WorldCharacteristics.MaxRopeDownSpeed = 1.7 * 1046 / Size.Height; //+ (638-LeftBox.Size.Height)*0.0010182;
             WorldCharacteristics.MaxHorizontalCraneSpeed = 20 * Size.Width / 1936.0;
             logic = new Logic(WorldCharacteristics.MaxHorizontalCraneSpeed, WorldCharacteristics.MaxRopeDownSpeed);
 
@@ -248,9 +247,9 @@ namespace Nekl_proj
                 Location = new Point(TopBox.Width + 5, AmplText.Location.Y + AmplText.Size.Height + 10),
                 Size = new Size(SettingsSize.Width - 20, 10),
                 TickFrequency = 5,
-                Minimum = (int) (Ampl),
+                Minimum = (int) (Ampl+1),
                 Maximum = (int) (WaterLevel / 3),
-                Value = (int) (Ampl),
+                Value = (int) (Ampl+1),
                 SmallChange = 1,
                 LargeChange = 1
             };
@@ -823,7 +822,7 @@ namespace Nekl_proj
         private void Begin_Click(object sender, EventArgs e)
         {
             level = 0;
-            AmplBar.Enabled = false;
+            //AmplBar.Enabled = false;
             WeightBar.Enabled = false;
             w1.Enabled = false;
             w2.Enabled = false;
