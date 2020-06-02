@@ -4,13 +4,6 @@ using System.Linq;
 
 namespace Nekl_proj
 {
-    // Вызывать как-то так
-    // private var logic = new Logic(
-    //     WorldCharacteristics.MaxHorizontalCraneSpeed * WorldCharacteristics.TimeDimension,
-    //     WorldCharacteristics.MaxRopeDownSpeed * WorldCharacteristics.TimeDimension);
-
-    // Наружу торчат методы которые говорят должное перемещение по вертикали и горизонтали
-
     public class Logic
     {
         private readonly double _maxDeviationSpeedPerTick;
@@ -79,7 +72,7 @@ namespace Nekl_proj
             var deviationDistribution = _deviationGraph.GetDistribution(Math.Abs(horizontalMove));
             var heightDistribution = _heightGraph.GetDistribution(distance);
 
-            var speedDistribution = new List<double>(3) { 0.001, 0.001, 0.001 };
+            var speedDistribution = new List<double>(3) {0.001, 0.001, 0.001};
             for (var i = 0; i < deviationDistribution.Count; ++i)
             for (var j = 0; j < heightDistribution.Count; ++j)
                 speedDistribution[rules[i, j]] =

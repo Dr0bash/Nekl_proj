@@ -36,6 +36,7 @@ namespace Nekl_proj
             
             return answer;
         }
+        
         public static PointF Wind_to_destination(PointF wind_now, PointF speed)
         {
             PointF answer = new PointF();
