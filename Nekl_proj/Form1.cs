@@ -124,10 +124,15 @@ namespace Nekl_proj
                 ScreenSize = Size;
                 WindowState = FormWindowState.Normal;
                 Size = new Size(1936, 1046);
+                Location = new Point(0, 0);
                 truesize = true;
             }
             else
             {
+                WindowState = FormWindowState.Maximized;
+                ScreenSize = Size;
+                WindowState = FormWindowState.Normal;
+                Size = new Size(ScreenSize.Width, ScreenSize.Height - Size.Height / 64);
                 //Size = new Size(1280, 720);
                 //ScreenSize = Size;
             }
